@@ -25,6 +25,30 @@ def register():
     return render_template('register.html', form = form)
 
 #Login
+@users.route('/login', methods = ['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        # Every email should be unique. .first() could make sure the type is correct
+        user = User.query.filter_by(email = form.email.data).first()
+
+        # Assume the user enter the correct password
+        if user.check_password(form.password.data) and user is not None:
+            login_user(user)
+            flash('Log in Success!')
+
+            # Grab the information what user trying to access next
+            next = request.args.get('next')
+
+            if next == None or next[0] == '/':
+                next = url_for('core.index')
+            
+            return redirect(next)
+    
+    return render_template('login.html', form = form)
+
+
+
 
 
 #Logout
