@@ -82,6 +82,7 @@ def account():
 #user's list of Blog posts
 @users.route('/<username>')
 def user_posts(username):
+    # Get an integer value for the current page number from the query string
     page = request.args.get('page', 1, type = int)
     user = User.query.filter_by(username = username).first_or_404()
     blog_posts = BlogPost.query.filter_by(author=user).order_by(BlogPost.date.desc()).paginate(page=page, per_page = 5)
