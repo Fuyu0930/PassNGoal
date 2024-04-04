@@ -1,1 +1,3 @@
 PassNGoalBlog/static/profile_pics/*.png
+*/*.sqlite
+migrations/
