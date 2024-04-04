@@ -35,7 +35,7 @@ class User(db.Model, UserMixin):
 # The BlogPost class
 class BlogPost(db.Model):
     users = db.relationship(User)
-    id = db.Column(db.Intger, primary_key = True)
+    id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable = False)
 
     date = db.Column(db.DateTime, nullable = False, default = datetime.now(datetime.UTC))
