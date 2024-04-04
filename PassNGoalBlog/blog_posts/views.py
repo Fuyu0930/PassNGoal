@@ -45,8 +45,8 @@ def update(blog_post_id):
     
     form = BlogPostForm()
     if form.validate_on_submit():
-        blog_post.title = form.title.data,
-        blog_post.text = form.text.data,
+        blog_post.title = form.title.data
+        blog_post.text = form.text.data
     
         db.session.commit()
         flash('Blog Post Updated')
@@ -65,7 +65,7 @@ def delete_post(blog_post_id):
     if blog_post.author != current_user:
         abort(403)
     
-    db.session.delet(blog_post)
+    db.session.delete(blog_post)
     db.session.commit()
     flash("Blog Post Deleted")
     return redirect(url_for('core.index'))
