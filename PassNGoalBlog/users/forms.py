@@ -20,11 +20,13 @@ class RegisterationForm(FlaskForm):
     submit = SubmitField('Register')
 
     def validate_email(self, email):
-        if User.query.filter_by(email = self.email.data).first():
+        user =  User.query.filter_by(email = self.email.data).first()
+        if user and user != current_user:
             raise ValidationError("Your Email has been registered.")
 
     def validate_username(self, username):
-        if User.query.filter_by(username = self.username.data).first():
+        user = User.query.filter_by(username = self.username.data).first()
+        if user and user != current_user:
             raise ValidationError("Your Username has been registered.")
     
 class UpdateUserForm(FlaskForm):
@@ -34,9 +36,11 @@ class UpdateUserForm(FlaskForm):
     submit = SubmitField('Update')
 
     def validate_email(self, email):
-        if User.query.filter_by(email = self.email.data).first():
+        user =  User.query.filter_by(email = self.email.data).first()
+        if user and user != current_user:
             raise ValidationError("Your Email has been registered.")
 
     def validate_username(self, username):
-        if User.query.filter_by(username = self.username.data).first():
+        user = User.query.filter_by(username = self.username.data).first()
+        if user and user != current_user:
             raise ValidationError("Your Username has been registered.")
