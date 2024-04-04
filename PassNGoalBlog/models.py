@@ -2,7 +2,7 @@
 from PassNGoalBlog import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-from datetime import datetime
+from datetime import datetime, timezone
 
 # Import the login manager
 @login_manager.user_loader
@@ -38,7 +38,7 @@ class BlogPost(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable = False)
 
-    date = db.Column(db.DateTime, nullable = False, default = datetime.now(datetime.UTC))
+    date = db.Column(db.DateTime, nullable = False, default = datetime.now(timezone.utc))
     title = db.Column(db.String(140), nullable = False)
     text = db.Column(db.Text, nullable = False)
 
