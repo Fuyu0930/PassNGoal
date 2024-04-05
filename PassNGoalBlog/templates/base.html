@@ -10,19 +10,17 @@
     <title></title>
     <style>
       .nav-link {
-        color: black; /* Change the color as per your requirement */
+        color: white; /* Change the color as per your requirement */
       }
       .navbar-brand {
-        color: black; /* Change the color as per your requirement */
+        color: white; /* Change the color as per your requirement */
       }
     </style>
   </head>
   <body>
 
-    <nav class = "navbar navbar-expand-lg bg-body-tertiary">
+    <nav class = "navbar navbar-expand-lg bg-body-tertiary" style="background-color: #323232;">
       <div class = "container-fluid">
-        <img src = "PassNGoal/static/logo/PassNGoal_logo_edit.png" alt = "logo" width = 80 height = 80 class="d-inline-block align-text-top">
-        <a class = "navbar-brand" href = "{{url_for('core.index')}}">PassNGoal</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -30,6 +28,9 @@
           <ul class = "navbar-nav">
             <li class = "nav-item">
               <a class = "nav-link active" aria-current = "page" href = "{{url_for('core.index')}}">Home</a>
+            </li>
+            <li class = "nav-item">
+              <a class = "nav-link active" aria-current = "page" href = "#">Data</a>
             </li>
             {% if current_user.is_authenticated %}
             <li>
