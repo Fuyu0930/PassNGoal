@@ -10,13 +10,13 @@
     <title>PassNGoal</title>
     <style>
       .navbar {
-      background: #343a40; /* Bootstrap dark background */
-    }
+        background: #343a40; /* Bootstrap dark background */
+      }
       .navbar-brand, .nav-link {
         color: #fff !important; /* White text */
       }
       .nav-link {
-        margin-right: 1rem; /* Spacing between nav items */
+        margin-right: 2rem; /* Spacing between nav items */
       }
       .nav-link:hover {
         color: #f8f9fa !important; /* Slightly lighter white on hover */
@@ -26,21 +26,6 @@
       }
       .navbar-toggler-icon {
         background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
-      }
-      .search-box {
-        display: flex;
-      }
-      .search-box input[type="search"] {
-        border: none;
-        padding: .5rem .75rem;
-        border-radius: .25rem 0 0 .25rem;
-      }
-      .search-box button {
-        border: none;
-        background: #495057; /* Slightly lighter than the navbar background */
-        color: white;
-        padding: .5rem .75rem;
-        border-radius: 0 .25rem .25rem 0;
       }
     </style>
   </head>
@@ -65,10 +50,6 @@
               <a class="nav-link" href="#">Leagues</a>
             </li>
           </ul>
-          <form class="form-inline search-box">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form>
           <ul class="navbar-nav">
             {% if current_user.is_authenticated %}
             <li class="nav-item">
