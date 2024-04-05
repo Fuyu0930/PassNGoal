@@ -18,7 +18,7 @@
       justify-content: center;
     }
     .sign-up-form {
-      width: 80%;
+      width: 60%;
       max-width: 500px;
     }
     .btn-signin {
@@ -31,7 +31,7 @@
       border: none;
       color: white;
     }
-  </style>
+</style>
 {% extends "base.html" %}
 {% block content %}
 <div>
@@ -43,7 +43,7 @@
       <div class="col-md-7 right-side">
         <form class="sign-up-form" method="POST">
             {{ form.hidden_tag() }}
-            <h2>Create your Account</h2>
+            <h2>Welcome!</h2>
             <div class="form-group">
                 {{form.email.label(class = 'form-group')}} 
                 {{form.email(class = 'form-control')}}
