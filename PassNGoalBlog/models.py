@@ -49,3 +49,45 @@ class BlogPost(db.Model):
     
     def __repr__(self):
         return f"Post ID: {self.id} -- Date: {self.date} -- {self.title}"
+
+# The League class
+class League(db.Model):
+    __tablename__ = 'leagues'
+    id = db.Column(db.Integer, primary_key =True)
+    name = db.Column(db.String(64), nullable = False)
+    country = db.Column(db.String(64), nullable = False)
+    logo = db.Column(db.String(256), nullable = False)
+    flag = db.Column(db.String(256), nullable = False)
+    seasons = db.relationship('Season', backref = 'season', lazy = True)
+
+
+# The Season class
+class Season(db.Model):
+    __tablename__ = 'seasons'
+    id = db.Column(db.Integer, primary_key = True)
+    league_id = db.Column(db.Integer, db.ForeignKey('leagues.id'))
+    year = db.Column(db.Integer)
+    standings = db.relationship('Standing', backref = 'season', lazy = True)
+
+# The Team class
+class Team(db.Model):
+    __tablename__ = 'teams'
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String)
+    logo = db.Column(db.String)
+    standings = db.relationship('Standing', backref = 'team', lazy = True)
+
+#The Standing class
+class Standing(db.Model):
+    __tablename__ = 'standings'
+    id = db.Column(db.Integer, primary_key = True)
+    season_id = db.Column(db.Integer, db.ForeignKey('seasons.id'), nullable = False)
+    team_id = db.Column(db.Integer, db.ForeignKey('teams.id'), nullable = False)
+    rank = db.Column(db.Integer)
+    points = db.Column(db.Integer)
+    goals_for = db.Column(db.Integer)
+    goals_against = db.Column(db.Integer)
+    goal_difference = db.Column(db.Integer)
+    form = db.Column(db.String)
+    status = db.Column(db.String)
+    description = db.Column(db.String)
