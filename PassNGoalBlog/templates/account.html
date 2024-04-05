@@ -1,13 +1,54 @@
+<style>
+    .profile-section {
+        padding: 20px 0;
+        text-align: center;
+    }
+    .profile-pic {
+        border-radius: 50%;
+        width: 150px;
+        height: 150px;
+    }
+    .name {
+        font-size: 24px;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+    .email {
+        font-size: 15px;
+        font-style: italic;
+        margin-top: 5px;
+    }
+    .posts-section {
+        padding: 20px 0;
+    }
+    .post {
+        margin-bottom: 15px;
+    }
+    .post img {
+        width: 100%;
+        height: auto;
+        border-radius: 5px;
+    }
+</style>
+
 {% extends "base.html" %}
 {% block content %}
-    <div class = 'jumbotron'>
-        <div align = 'center'>
-            <h1>Welcome to the page for {{current_user.username}}</h1>
-            <img align = 'center' src = "{{url_for('static', filename = 'profile_pics/' + current_user.profile_image)}}">
-        </div>
+<div class="container">
+    <!-- Profile Section -->
+    <div class="profile-section">
+      <img src="{{url_for('static', filename = 'profile_pics/' + current_user.profile_image)}}" alt="Profile Picture" class="profile-pic">
+      <div class="name">{{current_user.username}}</div>
+      <div class="email">{{current_user.email}}</div>
+    </div>
+  
+    <!-- Recent Posts Section -->
+    <div class="posts-section">
+      <h3>My Recent Posts</h3>
     </div>
 
-    <div class = 'container'>
+    <!-- Edit Profile Information Section -->
+    <div class="posts-section">
+        <h3>Update Account Information</h3>
         <form method="POST" action="" enctype="multipart/form-data">
             {{form.hidden_tag()}}
             <div class = 'form-group'>
@@ -27,4 +68,5 @@
             </div>
         </form>
     </div>
+</div>
 {% endblock%}
