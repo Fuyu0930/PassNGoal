@@ -2,7 +2,7 @@ from PIL import Image
 import os
 import PIL
 
-def resize_images(input_dir, output_dir, size = (100, 100)):
+def resize_images(input_dir, output_dir, size = (120, 100)):
 	if not os.path.exists(output_dir):
 		os.makedirs(output_dir)
 
