@@ -9,4 +9,4 @@ standings = Blueprint('standings', __name__)
 def show_standing(year, league_id):
     resource = StandingResource()
     standing_data = resource.get(year, league_id)
-    return render_template("standing.html", standing_data=standing_data)
+    return render_template("league_data.html", standing_data=standing_data)

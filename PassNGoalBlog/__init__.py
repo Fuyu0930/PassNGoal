@@ -33,11 +33,13 @@ from PassNGoalBlog.core.views import core
 from PassNGoalBlog.error_pages.handlers import error_pages
 from PassNGoalBlog.users.views import users
 from PassNGoalBlog.blog_posts.views import blog_posts
+from PassNGoalBlog.standings.views import standings
 
 app.register_blueprint(blog_posts)
 app.register_blueprint(users)
 app.register_blueprint(core)
 app.register_blueprint(error_pages)
+app.register_blueprint(standings)
 
 ##################################
 ########### Api Setups ###########
