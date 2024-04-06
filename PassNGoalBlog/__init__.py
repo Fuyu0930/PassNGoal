@@ -44,6 +44,6 @@ app.register_blueprint(standings)
 ##################################
 ########### Api Setups ###########
 ##################################
-from PassNGoalBlog.resources.standings import StandingResource
+from PassNGoalBlog.resources.football_data import StandingData
 api = Api(app)
-api.add_resource(StandingResource, '/standing/<int:year>/<int:league_id>')
+api.add_resource(StandingData, '/leage_standing_data/<int:year>/<int:league_id>')

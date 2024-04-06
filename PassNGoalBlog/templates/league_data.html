@@ -5,12 +5,13 @@
         <label for="yearSelect" class="form-label">Select Year:</label>
         <select class="form-control" id="yearSelect" onchange="location = this.value;">
             <option value="#">Choose a year</option>
-            <option value="{{url_for('standings.show_standing', year=2020, league_id=league_id)}}">2020-2021</option>
-            <option value="{{url_for('standings.show_standing', year=2021, league_id=league_id)}}">2021-2022</option>
-            <option value="{{url_for('standings.show_standing', year=2022, league_id=league_id)}}">2022-2023</option>
-            <option value="{{url_for('standings.show_standing', year=2023, league_id=league_id)}}">2023-2024</option>
+            <option value="{{ url_for('standings.show_standing', year=2020, league_id = league_id) }}">2020-2021</option>
+            <option value="{{ url_for('standings.show_standing', year=2021, league_id = league_id) }}">2021-2022</option>
+            <option value="{{ url_for('standings.show_standing', year=2022, league_id = league_id) }}">2022-2023</option>
+            <option value="{{ url_for('standings.show_standing', year=2023, league_id = league_id) }}">2023-2024</option>
         </select>
     </div>
+    <head>Season: {{ year }} ~ {{year + 1}}</head>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -28,8 +29,8 @@
             <tr>
                 <td>{{ standing.rank }}</td>
                 <td>
-                    <img src="{{ standing.team_logo }}" alt="Team Logo" style="width: 30px; height: 30px; object-fit: cover;">
-                    {{ standing.team_name }}
+                    <img src="{{ standing.team_logo }}" alt="{{ standing.team }} Logo" style="width: 30px; height: 30px; object-fit: cover;">
+                    {{ standing.team }}
                 </td>
                 <td>{{ standing.points }}</td>
                 <td>{{ standing.goals_for }}</td>
@@ -41,7 +42,4 @@
         </tbody>
     </table>
 </div>
-
-
-
 {% endblock %}

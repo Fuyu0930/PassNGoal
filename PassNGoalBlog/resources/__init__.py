@@ -1,1 +1,1 @@
-from .standings import StandingResource
+from .football_data import StandingData

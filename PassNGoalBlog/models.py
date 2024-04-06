@@ -51,97 +51,97 @@ class BlogPost(db.Model):
         return f"Post ID: {self.id} -- Date: {self.date} -- {self.title}"
 
 # The League class
-class League(db.Model):
-    __tablename__ = 'leagues'
-    id = db.Column(db.Integer, primary_key =True)
-    name = db.Column(db.String(64), nullable = False)
-    country = db.Column(db.String(64), nullable = False)
-    logo = db.Column(db.String(256), nullable = False)
-    flag = db.Column(db.String(256), nullable = False)
-    seasons = db.relationship('Season', backref = 'season', lazy = True)
+# class League(db.Model):
+#     __tablename__ = 'leagues'
+#     id = db.Column(db.Integer, primary_key =True)
+#     name = db.Column(db.String(64), nullable = False)
+#     country = db.Column(db.String(64), nullable = False)
+#     logo = db.Column(db.String(256), nullable = False)
+#     flag = db.Column(db.String(256), nullable = False)
+#     seasons = db.relationship('Season', backref = 'season', lazy = True)
 
-    def __init__(self, name, country, logo, flag):
-        self.name = name
-        self.country = country
-        self.logo = logo
-        self.flag = flag
+#     def __init__(self, name, country, logo, flag):
+#         self.name = name
+#         self.country = country
+#         self.logo = logo
+#         self.flag = flag
     
-    def json(self):
-        res = {"name": self.name,
-               "country": self.country,
-               "logo": self.logo,
-               "flag": self.flag}
-        return res
+#     def json(self):
+#         res = {"name": self.name,
+#                "country": self.country,
+#                "logo": self.logo,
+#                "flag": self.flag}
+#         return res
 
 
-# The Season class
-class Season(db.Model):
-    __tablename__ = 'seasons'
-    id = db.Column(db.Integer, primary_key = True)
-    league_id = db.Column(db.Integer, db.ForeignKey('leagues.id'))
-    year = db.Column(db.Integer)
-    standings = db.relationship('Standing', backref = 'season', lazy = True)
+# # The Season class
+# class Season(db.Model):
+#     __tablename__ = 'seasons'
+#     id = db.Column(db.Integer, primary_key = True)
+#     league_id = db.Column(db.Integer, db.ForeignKey('leagues.id'))
+#     year = db.Column(db.Integer)
+#     standings = db.relationship('Standing', backref = 'season', lazy = True)
 
-    def __init__(self, league_id, year):
-        self.league_id = league_id
-        self.year = year
+#     def __init__(self, league_id, year):
+#         self.league_id = league_id
+#         self.year = year
     
-    def json(self):
-        res = {"league_id": self.league_id,
-               "year": self.year}
-        return res
+#     def json(self):
+#         res = {"league_id": self.league_id,
+#                "year": self.year}
+#         return res
 
-# The Team class
-class Team(db.Model):
-    __tablename__ = 'teams'
-    id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String)
-    logo = db.Column(db.String)
-    standings = db.relationship('Standing', backref = 'team', lazy = True)
+# # The Team class
+# class Team(db.Model):
+#     __tablename__ = 'teams'
+#     id = db.Column(db.Integer, primary_key = True)
+#     name = db.Column(db.String)
+#     logo = db.Column(db.String)
+#     standings = db.relationship('Standing', backref = 'team', lazy = True)
 
-    def __init__(self, name, logo):
-        self.name = name
-        self.logo = logo
+#     def __init__(self, name, logo):
+#         self.name = name
+#         self.logo = logo
     
-    def json(self):
-        res = {"name": self.name,
-               "logo": self.logo}
-        return res
+#     def json(self):
+#         res = {"name": self.name,
+#                "logo": self.logo}
+#         return res
 
-#The Standing class
-class Standing(db.Model):
-    __tablename__ = 'standings'
-    id = db.Column(db.Integer, primary_key = True)
-    season_id = db.Column(db.Integer, db.ForeignKey('seasons.id'), nullable = False)
-    team_id = db.Column(db.Integer, db.ForeignKey('teams.id'), nullable = False)
-    rank = db.Column(db.Integer)
-    points = db.Column(db.Integer)
-    goals_for = db.Column(db.Integer)
-    goals_against = db.Column(db.Integer)
-    goal_difference = db.Column(db.Integer)
-    form = db.Column(db.String)
-    status = db.Column(db.String)
-    description = db.Column(db.String)
+# #The Standing class
+# class Standing(db.Model):
+#     __tablename__ = 'standings'
+#     id = db.Column(db.Integer, primary_key = True)
+#     season_id = db.Column(db.Integer, db.ForeignKey('seasons.id'), nullable = False)
+#     team_id = db.Column(db.Integer, db.ForeignKey('teams.id'), nullable = False)
+#     rank = db.Column(db.Integer)
+#     points = db.Column(db.Integer)
+#     goals_for = db.Column(db.Integer)
+#     goals_against = db.Column(db.Integer)
+#     goal_difference = db.Column(db.Integer)
+#     form = db.Column(db.String)
+#     status = db.Column(db.String)
+#     description = db.Column(db.String)
 
-    def __init__(self, season_id, team_id, rank, points, goals_for, goals_against, goal_difference, form, status, description):
-        self.season_id = season_id
-        self.team_id = team_id
-        self.rank = rank
-        self.points = points
-        self.goals_for = goals_for
-        self.goals_against = goals_against
-        self.goal_difference = goal_difference
-        self.form = form
-        self.status = status
-        self.description = description
+#     def __init__(self, season_id, team_id, rank, points, goals_for, goals_against, goal_difference, form, status, description):
+#         self.season_id = season_id
+#         self.team_id = team_id
+#         self.rank = rank
+#         self.points = points
+#         self.goals_for = goals_for
+#         self.goals_against = goals_against
+#         self.goal_difference = goal_difference
+#         self.form = form
+#         self.status = status
+#         self.description = description
 
-    def json(self):
-        res = {"rank": self.rank, 
-               "team_name": Team.query.filter_by(id=self.team_id).first().name,
-               "team_logo": Team.query.filter_by(id=self.team_id).first().logo,
-               "points": self.points,
-               "goals_for": self.goals_for,
-               "goals_against": self.goals_against,
-               "goal_difference": self.goal_difference,
-               "form": self.form}
-        return res
+#     def json(self):
+#         res = {"rank": self.rank, 
+#                "team_name": Team.query.filter_by(id=self.team_id).first().name,
+#                "team_logo": Team.query.filter_by(id=self.team_id).first().logo,
+#                "points": self.points,
+#                "goals_for": self.goals_for,
+#                "goals_against": self.goals_against,
+#                "goal_difference": self.goal_difference,
+#                "form": self.form}
+#         return res
