@@ -1,6 +1,36 @@
 {% extends "base.html" %}
 {% block content %}
-
+<div class="container mt-5">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Team</th>
+                <th>Points</th>
+                <th>Goals For</th>
+                <th>Goals Against</th>
+                <th>Goal Difference</th>
+                <th>Form</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for standing in standing_data %}
+            <tr>
+                <td>{{ standing.rank }}</td>
+                <td>
+                    <img src="{{ standing.team_logo }}" alt="Team Logo" style="width: 30px; height: 30px; object-fit: cover;">
+                    {{ standing.team_name }}
+                </td>
+                <td>{{ standing.points }}</td>
+                <td>{{ standing.goals_for }}</td>
+                <td>{{ standing.goals_against }}</td>
+                <td>{{ standing.goal_difference }}</td>
+                <td>{{ standing.form }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
 
 
