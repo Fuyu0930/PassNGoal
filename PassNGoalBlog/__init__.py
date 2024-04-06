@@ -4,6 +4,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
+from flask_restful import Api
 
 
 app = Flask(__name__)
@@ -37,3 +38,10 @@ app.register_blueprint(blog_posts)
 app.register_blueprint(users)
 app.register_blueprint(core)
 app.register_blueprint(error_pages)
+
+##################################
+########### Api Setups ###########
+##################################
+from PassNGoalBlog.resources.standings import StandingResource
+api = Api(app)
+api.add_resource(StandingResource, '/standing/<int:year>/<int:league_id>')

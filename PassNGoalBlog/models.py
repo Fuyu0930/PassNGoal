@@ -60,6 +60,19 @@ class League(db.Model):
     flag = db.Column(db.String(256), nullable = False)
     seasons = db.relationship('Season', backref = 'season', lazy = True)
 
+    def __init__(self, name, country, logo, flag):
+        self.name = name
+        self.country = country
+        self.logo = logo
+        self.flag = flag
+    
+    def json(self):
+        res = {"name": self.name,
+               "country": self.country,
+               "logo": self.logo,
+               "flag": self.flag}
+        return res
+
 
 # The Season class
 class Season(db.Model):
@@ -69,6 +82,15 @@ class Season(db.Model):
     year = db.Column(db.Integer)
     standings = db.relationship('Standing', backref = 'season', lazy = True)
 
+    def __init__(self, league_id, year):
+        self.league_id = league_id
+        self.year = year
+    
+    def json(self):
+        res = {"league_id": self.league_id,
+               "year": self.year}
+        return res
+
 # The Team class
 class Team(db.Model):
     __tablename__ = 'teams'
@@ -76,6 +98,15 @@ class Team(db.Model):
     name = db.Column(db.String)
     logo = db.Column(db.String)
     standings = db.relationship('Standing', backref = 'team', lazy = True)
+
+    def __init__(self, name, logo):
+        self.name = name
+        self.logo = logo
+    
+    def json(self):
+        res = {"name": self.name,
+               "logo": self.logo}
+        return res
 
 #The Standing class
 class Standing(db.Model):
@@ -91,3 +122,26 @@ class Standing(db.Model):
     form = db.Column(db.String)
     status = db.Column(db.String)
     description = db.Column(db.String)
+
+    def __init__(self, season_id, team_id, rank, points, goals_for, goals_against, goal_difference, form, status, description):
+        self.season_id = season_id
+        self.team_id = team_id
+        self.rank = rank
+        self.points = points
+        self.goals_for = goals_for
+        self.goals_against = goals_against
+        self.goal_difference = goal_difference
+        self.form = form
+        self.status = status
+        self.description = description
+
+    def json(self):
+        res = {"rank": self.rank, 
+               "team_name": Team.query.filter_by(id=self.team_id).first().name,
+               "team_logo": Team.query.filter_by(id=self.team_id).first().logo,
+               "points": self.points,
+               "goals_for": self.goals_for,
+               "goals_against": self.goals_against,
+               "goal_difference": self.goal_difference,
+               "form": self.form}
+        return res
