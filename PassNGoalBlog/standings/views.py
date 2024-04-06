@@ -10,4 +10,4 @@ def show_standing(year, league_id):
     resource = StandingResource()
     standing_data = resource.get(year, league_id)[0]
     print(standing_data)
-    return render_template("league_data.html", standing_data=standing_data)
+    return render_template("league_data.html", standing_data=standing_data, league_id=league_id)
