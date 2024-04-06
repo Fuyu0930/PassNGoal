@@ -46,7 +46,7 @@ class StandingData(Resource):
         return extracted_data
 
 class TopScorersData(Resource):
-    def get(year, league_id):
+    def get(self, year, league_id):
         querystring = {'season': str(year), 'league': str(league_id)}
         headers = {"X-RapidAPI-Key": api_key,
                    "X-RapidAPI-Host": api_host}
@@ -60,11 +60,12 @@ class TopScorersData(Resource):
                 "firstname": player_data["player"]["firstname"],
                 "lastname": player_data["player"]["lastname"],
                 "photo": player_data["player"]["photo"],
-                "team_id": player_data["statistics"]["team"]["id"],
-                "team_logo": player_data["statistics"]["team"]["logo"],
-                "appearences": player_data["statistics"]["games"]["appearances"],
-                "goals": player_data["statistics"]["goals"]["total"],
-                "penalty": player_data["statistics"]["penalty"]["scored"]
+                "team_id": player_data["statistics"][0]["team"]["id"],
+                "team": player_data["statistics"][0]["team"]["name"],
+                "team_logo": player_data["statistics"][0]["team"]["logo"],
+                "appearences": player_data["statistics"][0]["games"]["appearences"],
+                "goals": player_data["statistics"][0]["goals"]["total"],
+                "penalty": player_data["statistics"][0]["penalty"]["scored"]
             }
             for player_data in data["response"]
         ]
