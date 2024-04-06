@@ -1,6 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container mt-5">
+    <div class="mb-3">
+        <label for="yearSelect" class="form-label">Select Year:</label>
+        <select class="form-control" id="yearSelect" onchange="location = this.value;">
+            <option value="#">Choose a year</option>
+            <option value="{{url_for('standings.show_standing', year=2020, league_id=league_id)}}">2020-2021</option>
+            <option value="{{url_for('standings.show_standing', year=2021, league_id=league_id)}}">2021-2022</option>
+            <option value="{{url_for('standings.show_standing', year=2022, league_id=league_id)}}">2022-2023</option>
+            <option value="{{url_for('standings.show_standing', year=2023, league_id=league_id)}}">2023-2024</option>
+        </select>
+    </div>
     <table class="table table-striped">
         <thead>
             <tr>
