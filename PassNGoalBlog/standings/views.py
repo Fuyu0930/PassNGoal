@@ -1,13 +1,17 @@
 #standings/view.py
 from flask import Flask, render_template, url_for, flash, redirect, request, Blueprint
-from PassNGoalBlog.resources.football_data import StandingData
+from PassNGoalBlog.resources.football_data import StandingData, TopScorersData
 
 standings = Blueprint('standings', __name__)
 
 @standings.route('/league_standing/<int:year>/<int:league_id>')
 def show_standing(year, league_id):
-    resource = StandingData()
-    standing_data = resource.get(year, league_id)
-    print(standing_data)
-    print(league_id)
-    return render_template("league_data.html", standing_data=standing_data, league_id=league_id, year=year)
+    standing_resource = StandingData()
+    top_scorer_resource = TopScorersData()
+    standing_data = standing_resource.get(year, league_id)
+    top_scorer_data = top_scorer_resource.get(year, league_id)
+    return render_template("league_data.html", 
+                           standing_data=standing_data, 
+                           top_scorer_data=top_scorer_data,
+                           league_id=league_id, 
+                           year=year)
