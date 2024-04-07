@@ -47,7 +47,9 @@ app.register_blueprint(standings)
 from PassNGoalBlog.resources.league_data import StandingData
 from PassNGoalBlog.resources.league_data import TopScorersData
 from PassNGoalBlog.resources.league_data import TopAssistData
+from PassNGoalBlog.resources.team_data import TeamSquadData
 api = Api(app)
 api.add_resource(StandingData, '/leage_standing_data/<int:year>/<int:league_id>')
 api.add_resource(TopScorersData, '/top_scorer_data/<int:year>/<int:league_id>')
 api.add_resource(TopAssistData, '/top_assist_data/<int:year>/<int:league_id>')
+api.add_resource(TeamSquadData, '/team_squad_data/<int:team_id>')
