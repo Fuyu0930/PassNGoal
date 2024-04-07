@@ -46,6 +46,7 @@
     <table class="table table-striped">
         <thead>
             <tr>
+                <th>Rank</th>
                 <th>Player</th>
                 <th>Team</th>
                 <th>Goals</th>
@@ -56,6 +57,7 @@
         <tbody>
             {% for player in top_scorer_data %}
             <tr>
+                <td>{{ player.rank }}</td>
                 <td><img src="{{ player.photo }}" alt="{{ player.lastname }} Photo" style="width: 30px; height: 30px; object-fit: cover;">
                     {{ player.firstname + ' ' + player.lastname }}
                 </td>
@@ -75,6 +77,7 @@
     <table class="table table-striped">
         <thead>
             <tr>
+                <th>Rank</th>
                 <th>Player</th>
                 <th>Team</th>
                 <th>Assists</th>
@@ -84,6 +87,7 @@
         <tbody>
             {% for player in top_assist_data %}
             <tr>
+                <td>{{ player.rank }}</td>
                 <td><img src="{{ player.photo }}" alt="{{ player.lastname }} Photo" style="width: 30px; height: 30px; object-fit: cover;">
                     {{ player.firstname + ' ' + player.lastname }}
                 </td>

@@ -56,6 +56,7 @@ class TopScorersData(Resource):
         data = response.json()
         extracted_data = [
             {
+                "rank": index + 1,
                 "player_id": player_data["player"]["id"],
                 "firstname": player_data["player"]["firstname"],
                 "lastname": player_data["player"]["lastname"],
@@ -67,7 +68,7 @@ class TopScorersData(Resource):
                 "goals": player_data["statistics"][0]["goals"]["total"],
                 "penalty": player_data["statistics"][0]["penalty"]["scored"]
             }
-            for player_data in data["response"]
+            for index, player_data in enumerate(data["response"])
         ]
 
         return extracted_data
@@ -83,6 +84,7 @@ class TopAssistData(Resource):
         data = response.json()
         extracted_data = [
             {
+                "rank": index + 1,
                 "player_id": player_data["player"]["id"],
                 "firstname": player_data["player"]["firstname"],
                 "lastname": player_data["player"]["lastname"],
@@ -93,7 +95,7 @@ class TopAssistData(Resource):
                 "appearences": player_data["statistics"][0]["games"]["appearences"],
                 "assists": player_data["statistics"][0]["goals"]["assists"]
             }
-            for player_data in data["response"]
+            for index, player_data in enumerate(data["response"])
         ]
 
         return extracted_data
