@@ -71,3 +71,28 @@ class TopScorersData(Resource):
         ]
 
         return extracted_data
+
+class TopAssistData(Resource):
+    def get(self, year, league_id):
+        querystring = {'season': str(year), 'league': str(league_id)}
+        headers = {"X-RapidAPI-Key": api_key,
+                   "X-RapidAPI-Host": api_host}
+        response = requests.get("https://api-football-v1.p.rapidapi.com/v3/players/topassists", headers=headers, params=querystring)
+
+        # Parse the json and get the result
+        data = response.json()
+        extracted_data = [
+            {
+                "player_id": player_data["player"]["id"],
+                "firstname": player_data["player"]["firstname"],
+                "lastname": player_data["player"]["lastname"],
+                "photo": player_data["player"]["photo"],
+                "team_id": player_data["statistics"][0]["team"]["id"],
+                "team": player_data["statistics"][0]["team"]["name"],
+                "team_logo": player_data["statistics"][0]["team"]["logo"],
+                "assists": player_data["statistics"][0]["goals"]["assists"]
+            }
+            for player_data in data["response"]
+        ]
+
+        return extracted_data
