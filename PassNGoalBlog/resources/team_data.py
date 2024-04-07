@@ -26,26 +26,28 @@ class TeamSquadData(Resource):
                                 headers=headers, 
                                 params=querystring)
         
-        # Parse the json and get the expected result
-        data = response.json()
-        result = {"Goalkeeper": [],
-                  "Defender": [],
-                  "Midfielder": [],
-                  "Attacker":[]}
-        players = data["response"][0]["players"]
+        if response:
+            # Parse the json and get the expected result
+            data = response.json()
+            result = {"Goalkeeper": [],
+                    "Defender": [],
+                    "Midfielder": [],
+                    "Attacker":[]}
+            players = data["response"][0]["players"]
 
-        # Sort the player based on their position
-        for player in players:
-            player_json = {
-                "id": player["id"],
-                "name": player["name"],
-                "age": player["age"],
-                "number": player["number"],
-                "photo": player["photo"]
-            }
-            result[player["position"]].append(player_json)
+            # Sort the player based on their position
+            for player in players:
+                player_json = {
+                    "id": player["id"],
+                    "name": player["name"],
+                    "age": player["age"],
+                    "number": player["number"],
+                    "photo": player["photo"]
+                }
+                result[player["position"]].append(player_json)
 
-        return result
+            return result
+        return {"response": "not found"}, 404
 
 # Get certain numbers of future fixture based on the team id
 class TeamNextFixtures(Resource):
@@ -98,45 +100,56 @@ class TeamPastFixtures(Resource):
                                 headers=headers,
                                 params=querystring)
         
-        # Parse the json and get the expected data
-        data = response.json()
-        result = []
-        for fixture_data in data["response"]:
-            fixture_json = {
-                "fixture_info": {
-                    "fixture_id": fixture_data["fixture"]["id"],
-                    "referee": fixture_data["fixture"]["referee"],
-                    "date": fixture_data["fixture"]["date"],
-                    "timezone": fixture_data["fixture"]["timezone"]
-                },
-                "league_info": {
-                    "league_id": fixture_data["league"]["id"],
-                    "league": fixture_data["league"]["name"],
-                    "league_logo": fixture_data["league"]["logo"]
-                },
-                "home_team": {
-                    "home_id": fixture_data["teams"]["home"]["id"],
-                    "home_name": fixture_data["teams"]["home"]["name"],
-                    "home_logo": fixture_data["teams"]["home"]["logo"]
-                },
-                "away_team": {
-                    "away_id": fixture_data["teams"]["away"]["id"],
-                    "away_name": fixture_data["teams"]["away"]["name"],
-                    "away_logo": fixture_data["teams"]["away"]["logo"]
-                },
-                "halftime_score": {
-                    "home": fixture_data["score"]["halftime"]["home"],
-                    "away": fixture_data["score"]["halftime"]["away"]
-                },
-                "fulltime_score": {
-                    "home": fixture_data["goals"]["home"],
-                    "away": fixture_data["goals"]["away"]
+        if response:
+            # Parse the json and get the expected data
+            data = response.json()
+            result = []
+            for fixture_data in data["response"]:
+                fixture_json = {
+                    "fixture_info": {
+                        "fixture_id": fixture_data["fixture"]["id"],
+                        "referee": fixture_data["fixture"]["referee"],
+                        "date": fixture_data["fixture"]["date"],
+                        "timezone": fixture_data["fixture"]["timezone"]
+                    },
+                    "league_info": {
+                        "league_id": fixture_data["league"]["id"],
+                        "league": fixture_data["league"]["name"],
+                        "league_logo": fixture_data["league"]["logo"]
+                    },
+                    "home_team": {
+                        "home_id": fixture_data["teams"]["home"]["id"],
+                        "home_name": fixture_data["teams"]["home"]["name"],
+                        "home_logo": fixture_data["teams"]["home"]["logo"]
+                    },
+                    "away_team": {
+                        "away_id": fixture_data["teams"]["away"]["id"],
+                        "away_name": fixture_data["teams"]["away"]["name"],
+                        "away_logo": fixture_data["teams"]["away"]["logo"]
+                    },
+                    "halftime_score": {
+                        "home": fixture_data["score"]["halftime"]["home"],
+                        "away": fixture_data["score"]["halftime"]["away"]
+                    },
+                    "fulltime_score": {
+                        "home": fixture_data["goals"]["home"],
+                        "away": fixture_data["goals"]["away"]
+                    }
                 }
-            }
-            result.append(fixture_json)
+                result.append(fixture_json)
 
-        return result
+            return result
+        
+        return {"response": "not found"}, 404
 
 
 class TeamCurrentFixture(Resource):
-    pass
+    def get(self, team_id):
+        querystring = {"live": "all", "team": team_id}
+        headers = {"X-RapidAPI-Key": api_key,
+                   "X-RapidAPI-Host": api_host}
+        response = requests.get("https://api-football-v1.p.rapidapi.com/v3/fixtures", headers=headers, params=querystring)
+        if response:
+            pass
+        return {"response": "not found"}, 404
+
