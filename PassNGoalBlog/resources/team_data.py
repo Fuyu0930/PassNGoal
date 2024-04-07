@@ -150,6 +150,46 @@ class TeamCurrentFixture(Resource):
                    "X-RapidAPI-Host": api_host}
         response = requests.get("https://api-football-v1.p.rapidapi.com/v3/fixtures", headers=headers, params=querystring)
         if response:
-            pass
+            data = response.json()
+            if data["results"] == 0:
+                return False, {"response": "no current fixture"}
+            
+            fixture_data = data["response"]
+
+            result = {
+                "fixture_info" : {
+                    "id": fixture_data["fixture"]["id"],
+                    "referee": fixture_data["fixture"]["referee"],
+                    "date": fixture_data["fixture"]["date"]
+                },
+                "fixture_status": {
+                    "long": fixture_data["fixture"]["status"]["long"],
+                    "elapsed": fixture_data["fixture"]["status"]["elapsed"]
+                },
+                "league_info": {
+                    "id": fixture_data["league"]["id"],
+                    "name": fixture_data["league"]["name"],
+                    "country": fixture_data["league"]["country"],
+                    "logo": fixture_data["league"]["logo"],
+                    "round": fixture_data["league"]["round"]
+                },
+                "home_team": {
+                    "home_id": fixture_data["teams"]["home"]["id"],
+                    "home_name": fixture_data["teams"]["home"]["name"],
+                    "home_logo": fixture_data["teams"]["home"]["logo"]
+                },
+                "away_team": {
+                    "away_id": fixture_data["teams"]["away"]["id"],
+                    "away_name": fixture_data["teams"]["away"]["name"],
+                    "away_logo": fixture_data["teams"]["away"]["logo"]
+                },
+                "goals": {
+                    "home": fixture_data["goals"]["home"],
+                    "away": fixture_data["goals"]["away"]
+                },
+                "events": fixture_data["events"]
+            }
+            return True, result
+            
         return {"response": "not found"}, 404
 
