@@ -1,6 +1,6 @@
 #standings/view.py
 from flask import Flask, render_template, url_for, flash, redirect, request, Blueprint
-from PassNGoalBlog.resources.football_data import StandingData, TopScorersData, TopAssistData
+from PassNGoalBlog.resources.league_data import StandingData, TopScorersData, TopAssistData
 
 standings = Blueprint('standings', __name__)
 

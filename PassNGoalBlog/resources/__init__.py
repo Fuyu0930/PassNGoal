@@ -1,1 +1,1 @@
-from .football_data import StandingData
+from .league_data import StandingData
