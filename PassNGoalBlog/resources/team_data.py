@@ -87,3 +87,25 @@ class TeamNextFixtures(Resource):
             result.append(player_json)
 
         return result
+
+# Get certain numbers of past fixture based on the team id
+class TeamPastFixtures(Resource):
+    def get(self, team_id, round_num):
+        querystring = {"last": round_num, "team": team_id}
+        headers = {"X-RapidAPI-Key": api_key,
+                   "X-RapidAPI-Host": api_host}
+        response = requests.get("https://api-football-v1.p.rapidapi.com/v3/fixtures",
+                                headers=headers,
+                                params=querystring)
+        
+        # Parse the json and get the expected data
+        data = response.json()
+        result = []
+
+
+
+
+
+
+
+        return result
