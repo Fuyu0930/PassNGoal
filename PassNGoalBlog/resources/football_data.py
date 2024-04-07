@@ -90,6 +90,7 @@ class TopAssistData(Resource):
                 "team_id": player_data["statistics"][0]["team"]["id"],
                 "team": player_data["statistics"][0]["team"]["name"],
                 "team_logo": player_data["statistics"][0]["team"]["logo"],
+                "appearences": player_data["statistics"][0]["games"]["appearences"],
                 "assists": player_data["statistics"][0]["goals"]["assists"]
             }
             for player_data in data["response"]

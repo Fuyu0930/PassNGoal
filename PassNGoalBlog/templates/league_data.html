@@ -70,5 +70,32 @@
             {% endfor %}
         </tbody>
     </table>
+
+    <head>Top Assist Player</head>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Player</th>
+                <th>Team</th>
+                <th>Assists</th>
+                <th>Appearences</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for player in top_assist_data %}
+            <tr>
+                <td><img src="{{ player.photo }}" alt="{{ player.lastname }} Photo" style="width: 30px; height: 30px; object-fit: cover;">
+                    {{ player.firstname + ' ' + player.lastname }}
+                </td>
+                <td>
+                    <img src="{{ player.team_logo }}" alt="{{ player.team }} Logo" style="width: 30px; height: 30px; object-fit: cover;">
+                    {{ player.team }}
+                </td>
+                <td>{{ player.assists }}</td>
+                <td>{{ player.appearences }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endblock %}
