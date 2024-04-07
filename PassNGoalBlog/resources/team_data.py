@@ -136,3 +136,7 @@ class TeamPastFixtures(Resource):
             result.append(fixture_json)
 
         return result
+
+
+class TeamCurrentFixture(Resource):
+    pass
