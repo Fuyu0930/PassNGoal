@@ -61,7 +61,7 @@ class TeamNextFixtures(Resource):
         data = response.json()
         result = []
         for fixture_data in data["response"]:
-            player_json = {
+            fixture_json = {
                 "fixture_info": {
                     "fixture_id": fixture_data["fixture"]["id"],
                     "referee": fixture_data["fixture"]["referee"],
@@ -84,7 +84,7 @@ class TeamNextFixtures(Resource):
                     "away_logo": fixture_data["teams"]["away"]["logo"]
                 }
             }
-            result.append(player_json)
+            result.append(fixture_json)
 
         return result
 
@@ -101,11 +101,38 @@ class TeamPastFixtures(Resource):
         # Parse the json and get the expected data
         data = response.json()
         result = []
-
-
-
-
-
-
+        for fixture_data in data["response"]:
+            fixture_json = {
+                "fixture_info": {
+                    "fixture_id": fixture_data["fixture"]["id"],
+                    "referee": fixture_data["fixture"]["referee"],
+                    "date": fixture_data["fixture"]["date"],
+                    "timezone": fixture_data["fixture"]["timezone"]
+                },
+                "league_info": {
+                    "league_id": fixture_data["league"]["id"],
+                    "league": fixture_data["league"]["name"],
+                    "league_logo": fixture_data["league"]["logo"]
+                },
+                "home_team": {
+                    "home_id": fixture_data["teams"]["home"]["id"],
+                    "home_name": fixture_data["teams"]["home"]["name"],
+                    "home_logo": fixture_data["teams"]["home"]["logo"]
+                },
+                "away_team": {
+                    "away_id": fixture_data["teams"]["away"]["id"],
+                    "away_name": fixture_data["teams"]["away"]["name"],
+                    "away_logo": fixture_data["teams"]["away"]["logo"]
+                },
+                "halftime_score": {
+                    "home": fixture_data["score"]["halftime"]["home"],
+                    "away": fixture_data["score"]["halftime"]["away"]
+                },
+                "fulltime_score": {
+                    "home": fixture_data["goals"]["home"],
+                    "away": fixture_data["goals"]["away"]
+                }
+            }
+            result.append(fixture_json)
 
         return result
