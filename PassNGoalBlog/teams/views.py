@@ -8,12 +8,16 @@ from PassNGoalBlog.resources.team_data import TeamStatistics
 
 
 teams = Blueprint('teams', __name__)
-@teams.route('/team_overview/<int:year>/<int:team_id>/')
-def team_overview(year, team_id):
+@teams.route('/team_overview/<int:year>/<int:team_id>/<int:is_current>')
+def team_overview(year, team_id, is_current):
     team_league_resource = TeamLeagueInfo()
     team_statistics_resource = TeamStatistics()
 
-    team_league_data = team_league_resource.get(year, team_id, 0)
+    if is_current == 1:
+        team_league_data = team_league_resource.get(year, team_id, 1)
+    else:
+        team_league_data = team_league_resource.get(year, team_id, 0)
+
     league_id = team_league_data["league_id"]
 
     team_overview_data = team_statistics_resource.get(year, team_id, league_id)

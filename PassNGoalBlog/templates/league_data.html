@@ -55,7 +55,7 @@
                             
                             <td>
                                 <img src="{{ standing.team_logo }}" alt="{{ standing.team }} Logo" style="width: 30px; height: 30px; object-fit: cover;">
-                                <a href="{{ url_for('teams.team_overview', year=year, team_id=standing.team_id) }}">{{ standing.team }}</a>
+                                <a href="{{ url_for('teams.team_overview', year=year, team_id=standing.team_id, is_current=1) }}">{{ standing.team }}</a>
                             </td>
 
                             <td>{{ standing.points }}</td>
