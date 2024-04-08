@@ -1,3 +1,4 @@
+import datetime
 from flask import Flask, render_template, url_for, flash, redirect, Blueprint
 from PassNGoalBlog.resources.team_data import TeamSquadData 
 from PassNGoalBlog.resources.team_data import TeamNextFixtures
@@ -8,6 +9,7 @@ from PassNGoalBlog.resources.team_data import TeamStatistics
 from PassNGoalBlog.resources.league_data import StandingData, TopScorersData, TopAssistData
 
 teams = Blueprint('teams', __name__)
+today = datetime.date.today()
 
 def find_target_team(data, target):
     index = None
@@ -31,6 +33,8 @@ def team_overview(year, team_id, is_current):
     standing_data_resource = StandingData()
 
     if is_current == 1:
+        year = int(today.year) - 1
+        print(year)
         team_league_data = team_league_resource.get(year, team_id, 1)
     else:
         team_league_data = team_league_resource.get(year, team_id, 0)
