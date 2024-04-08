@@ -31,6 +31,7 @@ class StandingData(Resource):
             extracted_data = [
                 {
                     "rank": item["rank"],
+                    "team_id": item["team"]["id"],
                     "team": item["team"]["name"],
                     "team_logo": item["team"]["logo"],
                     "points": item["points"],

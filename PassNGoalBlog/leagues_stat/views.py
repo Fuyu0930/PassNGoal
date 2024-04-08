@@ -2,9 +2,9 @@
 from flask import Flask, render_template, url_for, flash, redirect, request, Blueprint
 from PassNGoalBlog.resources.league_data import StandingData, TopScorersData, TopAssistData
 
-standings = Blueprint('standings', __name__)
+leagues_stat = Blueprint('leagues_stat', __name__)
 
-@standings.route('/league_standing/<int:year>/<int:league_id>')
+@leagues_stat.route('/league_standing/<int:year>/<int:league_id>')
 def show_standing(year, league_id):
     standing_resource = StandingData()
     top_scorer_resource = TopScorersData()
