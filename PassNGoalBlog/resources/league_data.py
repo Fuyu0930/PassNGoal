@@ -47,6 +47,7 @@ class StandingData(Resource):
             return extracted_data
         
         return {"response": "not found"}, 404
+
 # Get the Top Scorer data based on league and year
 class TopScorersData(Resource):
     def get(self, year, league_id):
@@ -79,7 +80,7 @@ class TopScorersData(Resource):
             return extracted_data
         
         return {"response": "not found"}, 404
-    
+
 # Get the Top Assist data based on league and year
 class TopAssistData(Resource):
     def get(self, year, league_id):
