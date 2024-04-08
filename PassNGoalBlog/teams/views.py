@@ -18,7 +18,27 @@ def team_overview(year, team_id):
 
     team_overview_data = team_statistics_resource.get(year, team_id, league_id)
 
-    return render_template("team_overview.html", team_overview_data=team_overview_data)
+    league_data = team_overview_data["league"]
+    team_data = team_overview_data["team"]
+    form = team_overview_data["form"]
+    played_fixtures = team_overview_data["fixtures"]["played"]
+    win_fixtures = team_overview_data["fixtures"]["wins"]
+    draw_fixtures = team_overview_data["fixtures"]["draws"]
+    lose_fixtures = team_overview_data["fixtures"]["loses"]
+    goals_for = team_overview_data["goals"]["for"]
+    goals_against = team_overview_data["goals"]["against"]
+
+    return render_template("team_overview.html", 
+                           team_overview_data=team_overview_data,
+                           league_data=league_data,
+                           team_data=team_data,
+                           form=form,
+                           played_fixtures=played_fixtures,
+                           win_fixtures=win_fixtures,
+                           draw_fixtures=draw_fixtures,
+                           lose_fixtures=lose_fixtures,
+                           goals_for=goals_for,
+                           goals_against=goals_against)
 
 @teams.route('/team_squad/<int:team_id>')
 def team_squad(team_id):
