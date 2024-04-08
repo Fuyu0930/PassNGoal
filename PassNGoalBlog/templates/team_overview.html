@@ -88,7 +88,7 @@
                 <a class="list-group-item list-group-item-action" href="#current_standing">Current Standing</a>
                 <a class="list-group-item list-group-item-action">
                     <select class="form-control" id="yearSelect" onchange="location = this.value;">
-                        <option value="#">Choose a year</option>
+                        <option value="#">Season: {{ league_data.season }} ~ {{league_data.season + 1}}</option>
                         <option value="{{ url_for('teams.team_overview', year=2020, team_id=team_data.id, is_current=0) }}">2020-2021</option>
                         <option value="{{ url_for('teams.team_overview', year=2021, team_id=team_data.id, is_current=0) }}">2021-2022</option>
                         <option value="{{ url_for('teams.team_overview', year=2022, team_id=team_data.id, is_current=0) }}">2022-2023</option>
