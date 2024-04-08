@@ -51,6 +51,7 @@ from PassNGoalBlog.resources.team_data import TeamSquadData
 from PassNGoalBlog.resources.team_data import TeamNextFixtures
 from PassNGoalBlog.resources.team_data import TeamPastFixtures
 from PassNGoalBlog.resources.team_data import TeamCurrentFixture
+from PassNGoalBlog.resources.team_data import TeamLeagueInfo
 api = Api(app)
 api.add_resource(StandingData, '/leage_standing_data/<int:year>/<int:league_id>')
 api.add_resource(TopScorersData, '/top_scorer_data/<int:year>/<int:league_id>')
@@ -59,3 +60,4 @@ api.add_resource(TeamSquadData, '/team_squad_data/<int:team_id>')
 api.add_resource(TeamNextFixtures, '/team_next_fixtures/<int:team_id>/<int:round_num>')
 api.add_resource(TeamPastFixtures, '/team_past_fixtures/<int:team_id>/<int:round_num>')
 api.add_resource(TeamCurrentFixture, '/team_current_fixture/<int:team_id>')
+api.add_resource(TeamLeagueInfo, '/team_league_info/<int:year>/<int:team_id>/<int:is_current>')

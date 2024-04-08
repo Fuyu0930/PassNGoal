@@ -142,7 +142,7 @@ class TeamPastFixtures(Resource):
         
         return {"response": "not found"}, 404
 
-
+# Get team's current fixture (live)
 class TeamCurrentFixture(Resource):
     def get(self, team_id):
         querystring = {"live": "all", "team": team_id}
@@ -191,5 +191,38 @@ class TeamCurrentFixture(Resource):
             }
             return True, result
             
+        return {"response": "not found"}, 404
+
+# Get team's league based on season
+class TeamLeagueInfo(Resource):
+    def get(self, year, team_id, is_current):
+        # If it is current, then get current league's id
+        if is_current == 1:
+            querystring = {"team": team_id, "current": "true", "type": "league"}
+        else:
+            querystring = {"team": team_id, "season": year, "type": "league"}
+
+        # Get the response
+        headers = {"X-RapidAPI-Key": api_key,
+                   "X-RapidAPI-Host": api_host}
+        response = requests.get("https://api-football-v1.p.rapidapi.com/v3/leagues", headers=headers, params=querystring)
+
+        if response:
+            data = response.json()
+            if len(data["response"]) == 0:
+                return {"response": "no league found"}, 403
+            
+            league_data = data["response"][0]
+            result = {
+                "league_id": league_data["league"]["id"],
+                "league_name": league_data["league"]["name"],
+                "league_logo": league_data["league"]["logo"],
+                "league_country": league_data["country"]["name"],
+                "league_flag": league_data["country"]["flag"],
+                "season": league_data["seasons"][0]["year"]
+            }
+
+            return result
+
         return {"response": "not found"}, 404
 
