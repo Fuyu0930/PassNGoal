@@ -10,26 +10,23 @@
 
 {% extends "base.html" %}
 {% block content %}
-<div class="container mt-5">
-    <div class="mb-3">
-        <label for="yearSelect" class="form-label">Select Year:</label>
-        <select class="form-control" id="yearSelect" onchange="location = this.value;">
-            <option value="#">Choose a year</option>
-            <option value="{{ url_for('leagues_stat.show_standing', year=2020, league_id = league_id) }}">2020-2021</option>
-            <option value="{{ url_for('leagues_stat.show_standing', year=2021, league_id = league_id) }}">2021-2022</option>
-            <option value="{{ url_for('leagues_stat.show_standing', year=2022, league_id = league_id) }}">2022-2023</option>
-            <option value="{{ url_for('leagues_stat.show_standing', year=2023, league_id = league_id) }}">2023-2024</option>
-        </select>
-    </div>
-
-    <h1>Season: {{ year }} ~ {{year + 1}}</h1>
-
+<div class="container mt-5">    
     <div class="row">
         <div class = "col-md-3" id="sticky-menu">
+            <h4>Season: {{ year }} ~ {{year + 1}}</h4>
             <div id="league_stat" class="list-group">
                 <a class="list-group-item list-group-item-action" href="#league_standing">League Standing</a>
                 <a class="list-group-item list-group-item-action" href="#top_scorers">Top Scorers</a>
                 <a class="list-group-item list-group-item-action" href="#top_assists">Top Assists</a>
+                <a class="list-group-item list-group-item-action">
+                    <select class="form-control" id="yearSelect" onchange="location = this.value;">
+                        <option value="#">Choose a year</option>
+                        <option value="{{ url_for('leagues_stat.show_standing', year=2020, league_id = league_id) }}">2020-2021</option>
+                        <option value="{{ url_for('leagues_stat.show_standing', year=2021, league_id = league_id) }}">2021-2022</option>
+                        <option value="{{ url_for('leagues_stat.show_standing', year=2022, league_id = league_id) }}">2022-2023</option>
+                        <option value="{{ url_for('leagues_stat.show_standing', year=2023, league_id = league_id) }}">2023-2024</option>
+                    </select>
+                </a>
             </div>
         </div>
 
