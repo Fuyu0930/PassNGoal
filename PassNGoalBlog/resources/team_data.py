@@ -210,7 +210,7 @@ class TeamLeagueInfo(Resource):
         if response:
             data = response.json()
             if len(data["response"]) == 0:
-                return {"response": "no league found"}, 403
+                return {"response": "no league found"}, 204
             
             league_data = data["response"][0]
             result = {
@@ -226,3 +226,15 @@ class TeamLeagueInfo(Resource):
 
         return {"response": "not found"}, 404
 
+class TeamStatistics(Resource):
+    def get(self, year, team_id, league_id):
+        querystring = {"league": league_id, "season": year, "team": team_id}
+        headers = {"X-RapidAPI-Key": api_key,
+                   "X-RapidAPI-Host": api_host}
+        response = requests.get("https://api-football-v1.p.rapidapi.com/v3/teams/statistics", headers=headers, params=querystring)
+
+        if response:
+            data = response.json()
+            return data["response"]
+        
+        return {"response": "not found"}, 404
