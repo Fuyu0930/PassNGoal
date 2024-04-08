@@ -31,12 +31,18 @@
         top: 20px;
         right: 20px;
     }
+    .team-logo {
+        border-radius: 30%;
+        width: 150px;
+        height: 150px;
+    }
 </style>
 
 {% extends "base.html" %}
 {% block content %}
 
 <div class="team-banner">
+    <img src="{{team_data.logo}}" alt="team_logo" class="team-logo">
     <div class="team-name">{{team_data.name}}</div>
     <ul class="nav nav-tabs justify-content-center">
         <li class="nav-item">
