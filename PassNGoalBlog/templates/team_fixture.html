@@ -1,0 +1,172 @@
+<style>
+    .team-banner {
+        background: #343a40;
+        color: white;
+        padding: 20px 0;
+        text-align: center;
+        position: relative;
+    }
+    .team-logo {
+        width: 100px; /* Adjust as needed */
+        height: auto;
+        margin-bottom: 20px;
+    }
+    .team-name {
+        font-size: 3rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+        color: white;
+        background-color: transparent;
+        border-color: transparent;
+        border-bottom: 3px solid white; /* To highlight the active tab */
+    }
+    .nav-tabs .nav-link {
+        border: none;
+        color: rgba(255, 255, 255, 0.5);
+    }
+    .follow-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+    }
+    .team-logo {
+        border-radius: 30%;
+        width: 100px;
+        height: 100px;
+    }
+    .section-title {
+        font-size: 1.5rem;
+        font-weight: 500;
+        margin-top: 20px;
+    }
+    .horizontal-line {
+        border: 0;
+        height: 1px;
+        background-image: linear-gradient(to right, transparent, rgba(128, 128, 128, 0.75), transparent);
+        margin: 20px 0;
+    }
+    #sticky-menu {
+    position: -webkit-sticky; /* For Safari */
+    position: sticky;
+    top: 100; /* Adjust this value based on your header/nav height */
+    height: 100vh; /* Optional: to make the menu take full viewport height */
+    overflow-y: auto; /* Optional: to make the menu scrollable if it overflows */
+    }
+</style>
+
+{% extends "base.html" %}
+{% block content %}
+<div class="team-banner">
+    <img src="{{team_data.logo}}" alt="team_logo" class="team-logo">
+    <div class="team-name">{{team_data.name | upper}}</div>
+    <ul class="nav nav-tabs justify-content-center">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('teams.team_overview', year=2023, team_id=team_data.id, is_current=1) }}">
+                Overview
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('teams.team_fixtures', team_id=team_data.id) }}">Fixture</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{url_for('teams.team_squad', team_id=team_data.id)}}">
+                Squad
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+<div class="container mt-3">
+    <div class="section">
+        <h2 class="mb-3">FUTURE FIXTURES</h2>
+        <div class="row">
+            {% for fixture in next_fixture_data %}
+                <div class="col-sm-4 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <img src="{{ fixture.league_info.league_logo }}" alt="League" style="height: 30px; width: auto;">
+                            {{ fixture.league_info.league }}
+                        </div>
+                        <div class="card-body">
+                            <div style="margin-bottom: 10px;">
+                                <img src="{{ fixture.home_team.home_logo }}" alt="{{ fixture.home_team.home_name }}" style="height: 50px; width: 50px; margin-right: 16px;">
+                                <a href="{{ url_for('teams.team_overview', year=2023, team_id=fixture.home_team.home_id, is_current=1) }}">
+                                    <strong>{{ fixture.home_team.home_name }}</strong>
+                                </a>
+                            </div>
+                            <div>
+                                <img src="{{ fixture.away_team.away_logo }}" alt="{{ fixture.away_team.away_name }}" style="height: 50px; width: 50px; margin-right: 16px;">
+                                <a href="{{ url_for('teams.team_overview', year=2023, team_id=fixture.away_team.away_id, is_current=1) }}">
+                                    <strong>{{ fixture.away_team.away_name }}</strong>
+                                </a>
+                            </div>
+                        </div>
+                        <p class="text-center mt-2">Date: <span class="fixture-date">{{ fixture.fixture_info.date }}</span></p>
+                    </div>
+                </div>
+            {% endfor %}
+            <!-- Repeat end -->
+        </div>
+        <hr class="horizontal-line">
+    </div>
+
+    <div class="section">
+        <h2 class="mb-3">PAST FIXTURES</h2>
+        <div class="row">
+            {% for fixture in past_fixture_data %}
+                <div class="col-sm-4 mb-4">
+                    <div class="card">
+                        <div class="card-header text-center">
+                            <img src="{{ fixture.league_info.league_logo }}" alt="League" style="height: 30px; width: auto;">
+                            {{ fixture.league_info.league }}
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div class="d-flex align-items-center">
+                                    <img src="{{ fixture.home_team.home_logo }}" alt="{{ fixture.home_team.home_name }}" style="height: 50px; width: 50px; margin-right: 16px;">
+                                    <a href="{{ url_for('teams.team_overview', year=2023, team_id=fixture.home_team.home_id, is_current=1) }}">
+                                        <strong>{{ fixture.home_team.home_name }}</strong>
+                                    </a>
+                                </div>
+                                <strong>{{ fixture.fulltime_score.home }}</strong>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <img src="{{ fixture.away_team.away_logo }}" alt="{{ fixture.away_team.away_name }}" style="height: 50px; width: 50px; margin-right: 16px;">
+                                    <a href="{{ url_for('teams.team_overview', year=2023, team_id=fixture.away_team.away_id, is_current=1) }}">
+                                        <strong>{{ fixture.away_team.away_name }}</strong>
+                                    </a>
+                                </div>
+                                <strong>{{ fixture.fulltime_score.away }}</strong>
+                            </div>
+                        </div>
+                        <div class="card-footer text-center">
+                            Date: <span class="fixture-date">{{ fixture.fixture_info.date }}</span>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <!-- Repeat end -->
+        </div>
+        <hr class="horizontal-line">
+    </div>
+</div>
+
+
+<script>
+    // Script to convert all fixture dates to local time
+    document.addEventListener('DOMContentLoaded', function() {
+        const dateElements = document.querySelectorAll('.fixture-date');
+        dateElements.forEach(elem => {
+            const utcDate = new Date(elem.textContent);
+            const localDate = utcDate.toLocaleString();
+            elem.textContent = localDate;
+        });
+    });
+</script>
+
+
+{% endblock %}
