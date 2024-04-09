@@ -34,7 +34,6 @@ def team_overview(year, team_id, is_current):
 
     if is_current == 1:
         year = int(today.year) - 1
-        print(year)
         team_league_data = team_league_resource.get(year, team_id, 1)
     else:
         team_league_data = team_league_resource.get(year, team_id, 0)
@@ -48,9 +47,22 @@ def team_overview(year, team_id, is_current):
     # Get the team statistics
     team_overview_data = team_statistics_resource.get(year, team_id, league_id)
 
+    form = team_overview_data["form"]
+    recent_form = {"win":0, "draw": 0, "loss": 0}
+    if len(form) > 5:
+        form = form[:-5]
+    
+    for match_result in form:
+        if match_result == 'W':
+            recent_form["win"] += 1
+        elif match_result == 'L':
+            recent_form["lose"] += 1
+        else:
+            recent_form["draw"] += 1
+
     league_data = team_overview_data["league"]
     team_data = team_overview_data["team"]
-    form = team_overview_data["form"]
+    
     played_fixtures = team_overview_data["fixtures"]["played"]
     win_fixtures = team_overview_data["fixtures"]["wins"]
     draw_fixtures = team_overview_data["fixtures"]["draws"]
@@ -62,7 +74,7 @@ def team_overview(year, team_id, is_current):
                            team_overview_data=team_overview_data,
                            league_data=league_data,
                            team_data=team_data,
-                           form=form,
+                           recent_form=recent_form,
                            played_fixtures=played_fixtures,
                            win_fixtures=win_fixtures,
                            draw_fixtures=draw_fixtures,
@@ -70,7 +82,6 @@ def team_overview(year, team_id, is_current):
                            goals_for=goals_for,
                            goals_against=goals_against,
                            team_standing=team_standing)
-
 
 
 @teams.route('/team_squad/<int:team_id>')
