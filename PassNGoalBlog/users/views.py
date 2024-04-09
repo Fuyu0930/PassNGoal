@@ -75,8 +75,11 @@ def account():
         form.username.data = current_user.username
         form.email.data = current_user.email
 
+    user = User.query.filter_by(username=current_user.username).first_or_404()
+    blog_posts = BlogPost.query.filter_by(author=user).order_by(BlogPost.date.desc()).paginate(page=1,per_page=3)
+
     profile_image = url_for('static', filename = 'profile_pics/'+current_user.profile_image)
-    return render_template('account.html', profile_image = profile_image, form = form)
+    return render_template('account.html', profile_image = profile_image, form = form, blog_posts = blog_posts)
 
 
 #user's list of Blog posts

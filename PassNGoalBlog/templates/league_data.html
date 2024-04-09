@@ -1,0 +1,130 @@
+<style>
+    #sticky-menu {
+    position: -webkit-sticky; /* For Safari */
+    position: sticky;
+    top: 100; /* Adjust this value based on your header/nav height */
+    height: 100vh; /* Optional: to make the menu take full viewport height */
+    overflow-y: auto; /* Optional: to make the menu scrollable if it overflows */
+}
+</style>
+
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">    
+    <div class="row">
+        <div class = "col-md-3" id="sticky-menu">
+            <h4>Season: {{ year }} ~ {{year + 1}}</h4>
+            <div id="league_stat" class="list-group">
+                <a class="list-group-item list-group-item-action" href="#league_standing">League Standing</a>
+                <a class="list-group-item list-group-item-action" href="#top_scorers">Top Scorers</a>
+                <a class="list-group-item list-group-item-action" href="#top_assists">Top Assists</a>
+                <a class="list-group-item list-group-item-action">
+                    <select class="form-control" id="yearSelect" onchange="location = this.value;">
+                        <option value="#">Choose a year</option>
+                        <option value="{{ url_for('leagues_stat.show_standing', year=2020, league_id = league_id) }}">2020-2021</option>
+                        <option value="{{ url_for('leagues_stat.show_standing', year=2021, league_id = league_id) }}">2021-2022</option>
+                        <option value="{{ url_for('leagues_stat.show_standing', year=2022, league_id = league_id) }}">2022-2023</option>
+                        <option value="{{ url_for('leagues_stat.show_standing', year=2023, league_id = league_id) }}">2023-2024</option>
+                    </select>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <div data-bs-spy="scroll" data-bs-target="#league_stat" data-bs-offset="0" class="scrollspy-example" tabindex="0">
+                <h2 id="league_standing">League Standing</h2>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Team</th>
+                            <th>Points</th>
+                            <th>Goals For</th>
+                            <th>Goals Against</th>
+                            <th>Goal Difference</th>
+                            <th>Form</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for standing in standing_data %}
+                        <tr>
+                            <td>{{ standing.rank }}</td>
+                            
+                            <td>
+                                <img src="{{ standing.team_logo }}" alt="{{ standing.team }} Logo" style="width: 30px; height: 30px; object-fit: cover;">
+                                <a href="{{ url_for('teams.team_overview', year=year, team_id=standing.team_id, is_current=1) }}">{{ standing.team }}</a>
+                            </td>
+
+                            <td>{{ standing.points }}</td>
+                            <td>{{ standing.goals_for }}</td>
+                            <td>{{ standing.goals_against }}</td>
+                            <td>{{ standing.goal_difference }}</td>
+                            <td>{{ standing.form }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <h2 id="top_scorers">Top Scorers</h2>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Player</th>
+                            <th>Team</th>
+                            <th>Goals</th>
+                            <th>Penalty</th>
+                            <th>Appearences</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for player in top_scorer_data %}
+                        <tr>
+                            <td>{{ player.rank }}</td>
+                            <td><img src="{{ player.photo }}" alt="{{ player.lastname }} Photo" style="width: 30px; height: 30px; object-fit: cover;">
+                                {{ player.name }}
+                            </td>
+                            <td>
+                                <img src="{{ player.team_logo }}" alt="{{ player.team }} Logo" style="width: 30px; height: 30px; object-fit: cover;">
+                                {{ player.team }}
+                            </td>
+                            <td>{{ player.goals }}</td>
+                            <td>{{ player.penalty }}</td>
+                            <td>{{ player.appearences }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <h2 id="top_assists">Top Assists</h2>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Player</th>
+                            <th>Team</th>
+                            <th>Assists</th>
+                            <th>Appearences</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for player in top_assist_data %}
+                        <tr>
+                            <td>{{ player.rank }}</td>
+                            <td><img src="{{ player.photo }}" alt="{{ player.lastname }} Photo" style="width: 30px; height: 30px; object-fit: cover;">
+                                {{ player.name }}
+                            </td>
+                            <td>
+                                <img src="{{ player.team_logo }}" alt="{{ player.team }} Logo" style="width: 30px; height: 30px; object-fit: cover;">
+                                {{ player.team }}
+                            </td>
+                            <td>{{ player.assists }}</td>
+                            <td>{{ player.appearences }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

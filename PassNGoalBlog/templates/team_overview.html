@@ -1,0 +1,456 @@
+<style>
+    .team-banner {
+        background: #343a40;
+        color: white;
+        padding: 20px 0;
+        text-align: center;
+        position: relative;
+    }
+    .team-logo {
+        width: 100px; /* Adjust as needed */
+        height: auto;
+        margin-bottom: 20px;
+    }
+    .team-name {
+        font-size: 3rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+        color: white;
+        background-color: transparent;
+        border-color: transparent;
+        border-bottom: 3px solid white; /* To highlight the active tab */
+    }
+    .nav-tabs .nav-link {
+        border: none;
+        color: rgba(255, 255, 255, 0.5);
+    }
+    .follow-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+    }
+    .team-logo {
+        border-radius: 30%;
+        width: 100px;
+        height: 100px;
+    }
+    .section-title {
+        font-size: 1.5rem;
+        font-weight: 500;
+        margin-top: 20px;
+    }
+    .horizontal-line {
+        border: 0;
+        height: 1px;
+        background-image: linear-gradient(to right, transparent, rgba(128, 128, 128, 0.75), transparent);
+        margin: 20px 0;
+    }
+    #sticky-menu {
+    position: -webkit-sticky; /* For Safari */
+    position: sticky;
+    top: 100; /* Adjust this value based on your header/nav height */
+    height: 100vh; /* Optional: to make the menu take full viewport height */
+    overflow-y: auto; /* Optional: to make the menu scrollable if it overflows */
+    }
+</style>
+
+{% extends "base.html" %}
+{% block content %}
+
+<!-- The banner -->
+<div class="team-banner">
+    <img src="{{team_data.logo}}" alt="team_logo" class="team-logo">
+    <div class="team-name">{{team_data.name | upper}}</div>
+    <ul class="nav nav-tabs justify-content-center">
+        <li class="nav-item">
+            <a class="nav-link" href="#overview">Overview</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#fixture">Fixture</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#squad">Squad</a>
+        </li>
+    </ul>
+</div>
+
+<div class="container mt-1">
+    <div class="row">
+        <!-- Sticky Side Menu -->
+        <div class = "col-md-3" id="sticky-menu">
+            <div id="league_stat" class="list-group">
+                <a class="list-group-item list-group-item-action" href="#basic_info">BASIC INFO</a>
+                <a class="list-group-item list-group-item-action" href="#league_goals">GOALS</a>
+                <a class="list-group-item list-group-item-action" href="#league_fixtures">FIXTURE DATA</a>
+                <a class="list-group-item list-group-item-action" href="#current_standing">CURRENT STANDING</a>
+                <a class="list-group-item list-group-item-action">
+                    <select class="form-control" id="yearSelect" onchange="location = this.value;">
+                        <option value="#">Season: {{ league_data.season }} ~ {{league_data.season + 1}}</option>
+                        <option value="{{ url_for('teams.team_overview', year=2020, team_id=team_data.id, is_current=0) }}">2020-2021</option>
+                        <option value="{{ url_for('teams.team_overview', year=2021, team_id=team_data.id, is_current=0) }}">2021-2022</option>
+                        <option value="{{ url_for('teams.team_overview', year=2022, team_id=team_data.id, is_current=0) }}">2022-2023</option>
+                        <option value="{{ url_for('teams.team_overview', year=2023, team_id=team_data.id, is_current=1) }}">2023-2024</option>
+                    </select>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <div data-bs-spy="scroll" data-bs-target="#league_stat" data-bs-offset="0" class="scrollspy-example" tabindex="0">
+                <!-- Section 1: Basic Info -->
+                <div class="section">
+                    <h2 class="section-title row justify-content-center align-items-center" id="basic_info">BASIC INFO</h2>
+                    <div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center">
+                        <!-- Basic League Info -->
+                        <div class="col mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h6 class="card-title row justify-content-center align-items-center" style="font-size: 18;">League</h5>
+                                    <a class="d-flex justify-content-center align-items-center" href="{{ url_for('leagues_stat.show_standing', year=league_data.season, league_id=league_data.id) }}">
+                                        <img src="{{league_data.logo}}" alt="League logo" width="70" height="70">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Recent Form Info -->
+                        <div class="col mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h6 class="card-title text-center" style="font-size: 18px;">Recent 5 Forms</h6>
+                                    <div class="d-flex justify-content-around text-center" style="font-weight: bold;">
+                                        <div>
+                                            <div style="color: green;">WIN</div>
+                                            <div>{{ recent_form.win }}</div>
+                                        </div>
+                                        <div>
+                                            <div style="color: grey;">Draw</div>
+                                            <div>{{ recent_form.draw }}</div>
+                                        </div>
+                                        <div>
+                                            <div style="color: red;">Loss</div>
+                                            <div>{{ recent_form.loss }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- This season's win and loss -->
+                        <div class="col mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h6 class="card-title text-center" style="font-size: 18px;">Total Win & Loss</h6>
+                                    <div class="d-flex justify-content-around text-center" style="font-weight: bold;">
+                                        <div>
+                                            <div style="color: green;">WIN</div>
+                                            <div>{{ win_fixtures.total }}</div>
+                                        </div>
+                                        <div>
+                                            <div style="color: grey;">Draw</div>
+                                            <div>{{ draw_fixtures.total }}</div>
+                                        </div>
+                                        <div>
+                                            <div style="color: red;">Loss</div>
+                                            <div>{{ loss_fixtures.total }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <hr class="horizontal-line">
+                </div>
+
+                <!-- Section 2: Goals -->
+                <div class="section">
+                    <h2 class="section-title text-center" id="league_goals">GOALS</h2>
+                    <div class="row" style="display:flex;">     
+                        <!-- Goals For Column -->
+                        <div class="col-lg-6" style="flex:50%">
+                            <div class="card mb-4">
+                                <div class="card-header text-center">Goals For</div>
+                                <div class="card-body">
+                                    <h5 class="card-title text-center">Home vs. Away Comparison Chart</h5>
+                                    <canvas id="goalsForComparisonChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Goals Against Column -->
+                        <div class="col-lg-6" style="flex:50%">
+                            <div class="card mb-4">
+                                <div class="card-header text-center">Goals Against</div>
+                                <div class="card-body">
+                                    <h5 class="card-title text-center">Home vs. Away Comparison Chart</h5>
+                                    <canvas id="goalsAgainstComparisonChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Minutes Comparison -->
+                    <div>
+                        <div class="card mb-4">
+                            <div class="card-header text-center">Time Comparison</div>
+                            <div class="card-body">
+                                <canvas id="minuteComparisonChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="horizontal-line">
+                </div>
+
+                <!-- Section 3: Fixture data -->
+                <div class="section">
+                    <h2 class="section-title text-center" id="league_fixtures">GAME DATA</h2>
+                    <div>
+                        <div class="card mb-4">
+                            <div class="card-header text-center">Home vs. Away Stat</div>
+                            <div class="card-body">
+                                <canvas id="homeAwayComparisonChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    </div>
+                    <hr class="horizontal-line">
+                </div>
+
+                <!-- Section 4: Current Standing -->
+                <div class="section" id="current_standing">
+                    <h2 class="section-title row justify-content-center align-items-center" id="current_standing">CURRENT STANDING</h2>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Team</th>
+                                <th>Points</th>
+                                <th>Goals For</th>
+                                <th>Goals Against</th>
+                                <th>Goal Difference</th>
+                                <th>Form</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for standing in team_standing %}
+                                {% if standing.team_id != team_data.id %}
+                                <tr>
+                                    <td>{{ standing.rank }}</td>
+                                    
+                                    <td>
+                                        <img src="{{ standing.team_logo }}" alt="{{ standing.team }} Logo" style="width: 30px; height: 30px; object-fit: cover;">
+                                        {{ standing.team }}
+                                    </td>
+
+                                    <td>{{ standing.points }}</td>
+                                    <td>{{ standing.goals_for }}</td>
+                                    <td>{{ standing.goals_against }}</td>
+                                    <td>{{ standing.goal_difference }}</td>
+                                    <td>{{ standing.form }}</td>
+                                </tr>
+                                {% else %}
+                                <tr style="background-color: rgba(11, 162, 11, 0.8); color: white;">
+                                    <td>{{ standing.rank }}</td>
+                                    
+                                    <td>
+                                        <img src="{{ standing.team_logo }}" alt="{{ standing.team }} Logo" style="width: 30px; height: 30px; object-fit: cover;">
+                                        {{ standing.team }}
+                                    </td>
+
+                                    <td>{{ standing.points }}</td>
+                                    <td>{{ standing.goals_for }}</td>
+                                    <td>{{ standing.goals_against }}</td>
+                                    <td>{{ standing.goal_difference }}</td>
+                                    <td>{{ standing.form }}</td>
+                                </tr>
+                                {% endif %}
+
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <hr class="horizontal-line">
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    /************************************************************/
+    /**********************Comparison Chart**********************/
+    /************************************************************/
+    const goalsForData = JSON.parse('{{ goals_for | tojson | safe }}');
+    const goalsAgainstData = JSON.parse('{{ goals_against | tojson | safe }}')
+    const goalsForBackgroundColor = ['rgba(0, 204, 0, 0.8)', 'rgba(255, 204, 153, 0.8']
+    const goalsAgainstBackgroundColor = ['rgba(255, 153, 204, 0.8)', 'rgba(102, 178, 255, 0.8)']
+
+    // Total Chart total Config (as a function)
+    function createTotalChartData(backgroundColor, homeData, awayData) {
+        return {
+            labels:[
+                "Home",
+                "Away"
+            ],
+            datasets: [{
+                label: "Goals",
+                data: [homeData, awayData],
+                backgroundColor:backgroundColor,
+                hoverOffset: 4
+            }]
+        }
+    }
+
+    const comparisonPlugins = { 
+        legend: {
+            labels: {
+                font: {
+                    size: 15
+                }
+            }
+        }
+    }
+    
+    const goalsForComparisonChartData = createTotalChartData(goalsForBackgroundColor, goalsForData.total.home, goalsForData.total.away);
+    const goalsAgainstComparisonChartData = createTotalChartData(goalsAgainstBackgroundColor, goalsAgainstData.total.home, goalsAgainstData.total.away);
+    const goalsForComparisonChart = new Chart(document.getElementById('goalsForComparisonChart'),{
+        type: "doughnut",
+        data: goalsForComparisonChartData,
+        options:{
+            plugins: comparisonPlugins
+        }
+    });
+
+    const goalsAgainstComparisonChart = new Chart(document.getElementById('goalsAgainstComparisonChart'),{
+        type: "doughnut",
+        data: goalsAgainstComparisonChartData,
+        options:{
+            plugins: comparisonPlugins
+        }
+    });
+
+
+    /********************************************************/
+    /**********************Minute Chart**********************/
+    /********************************************************/
+    // Extract the labels and data from both JSON objects
+    const goalsForMin = goalsForData.minute;
+    const goalsAgainstMin = goalsAgainstData.minute;
+    
+    const minuteLabels = ["0-15", "16-30", "31-45", "46-60", "61-75", "76-90", "91-105", "106-120"];
+    
+    const goalsFor = minuteLabels.map(range => goalsForMin[range]?.total || 0);
+    const goalsAgainst = minuteLabels.map(range => goalsAgainstMin[range]?.total || 0);
+
+    // Define the chart data with two datasets
+    const chartData = {
+        labels: minuteLabels,
+        datasets: [
+        {
+            label: 'Goals For',
+            data: goalsFor,
+            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+        },
+        {
+            label: 'Goals Against',
+            data: goalsAgainst,
+            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1
+        }
+        ]
+    };
+
+    // Define the chart options
+    const chartOptions = {
+        scales: {
+            x: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: "Time Range"
+                }
+            },
+            y: {
+                title: {
+                    displaye: true,
+                    text: "Total Goals"
+                }
+            }
+        },
+        plugins: {
+            legend: {
+                display: true
+            }
+        }
+    };
+
+    // Initialize the chart
+    new Chart(document.getElementById('minuteComparisonChart'), {
+        type: 'bar',
+        data: chartData,
+        options: chartOptions
+    });
+    
+
+    /*************************************************************************/
+    /**********************Home vs Away Comparison Chart**********************/
+    /*************************************************************************/
+    const fixtureWin = JSON.parse('{{ win_fixtures | tojson | safe }}');
+    const fixtureDraw = JSON.parse('{{ draw_fixtures | tojson | safe }}');
+    const fixtureLoss = JSON.parse('{{ loss_fixtures | tojson | safe }}');
+
+    const homeData = [fixtureWin.home, fixtureDraw.home, fixtureLoss.home];
+    const awayData = [fixtureWin.away, fixtureDraw.away, fixtureLoss.away];
+
+    const homeAwayComparisonData = {
+        labels: ['Win', 'Draw', 'Loss'],
+        datasets: [
+            {
+                label: 'Home',
+                data: homeData,
+                backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            },
+            {
+                label: 'Away',
+                data: awayData,
+                backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }
+        ]
+    };
+
+    const homeAwayComparisonChartOptions = {
+        scales: {
+            x: {
+                stacked: false // Set to false if you don't want bars to be stacked
+            },
+            y: {
+                beginAtZero: true
+            }
+        },
+        plugins: {
+            legend: {
+                display: true
+            }
+        }
+    };
+
+    new Chart(document.getElementById('homeAwayComparisonChart'), {
+        type: 'bar',
+        data: homeAwayComparisonData,
+        options: homeAwayComparisonChartOptions
+    });
+
+  });
+  </script>
+{% endblock %}
