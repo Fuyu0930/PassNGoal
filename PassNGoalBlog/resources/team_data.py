@@ -29,7 +29,8 @@ class TeamSquadData(Resource):
         if response:
             # Parse the json and get the expected result
             data = response.json()
-            result = {"Goalkeeper": [],
+            result = {"team_data": data["response"][0]["team"],
+                    "Goalkeeper": [],
                     "Defender": [],
                     "Midfielder": [],
                     "Attacker":[]}

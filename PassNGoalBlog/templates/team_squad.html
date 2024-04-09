@@ -1,0 +1,79 @@
+<style>
+    .team-banner {
+        background: #343a40;
+        color: white;
+        padding: 20px 0;
+        text-align: center;
+        position: relative;
+    }
+    .team-logo {
+        width: 100px; /* Adjust as needed */
+        height: auto;
+        margin-bottom: 20px;
+    }
+    .team-name {
+        font-size: 3rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+        color: white;
+        background-color: transparent;
+        border-color: transparent;
+        border-bottom: 3px solid white; /* To highlight the active tab */
+    }
+    .nav-tabs .nav-link {
+        border: none;
+        color: rgba(255, 255, 255, 0.5);
+    }
+    .follow-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+    }
+    .team-logo {
+        border-radius: 30%;
+        width: 100px;
+        height: 100px;
+    }
+    .section-title {
+        font-size: 1.5rem;
+        font-weight: 500;
+        margin-top: 20px;
+    }
+    .horizontal-line {
+        border: 0;
+        height: 1px;
+        background-image: linear-gradient(to right, transparent, rgba(128, 128, 128, 0.75), transparent);
+        margin: 20px 0;
+    }
+    #sticky-menu {
+    position: -webkit-sticky; /* For Safari */
+    position: sticky;
+    top: 100; /* Adjust this value based on your header/nav height */
+    height: 100vh; /* Optional: to make the menu take full viewport height */
+    overflow-y: auto; /* Optional: to make the menu scrollable if it overflows */
+    }
+</style>
+
+{% extends "base.html" %}
+{% block content %}
+<div class="team-banner">
+    <img src="{{team_data.logo}}" alt="team_logo" class="team-logo">
+    <div class="team-name">{{team_data.name | upper}}</div>
+    <ul class="nav nav-tabs justify-content-center">
+        <li class="nav-item">
+            <a class="nav-link" href="#overview">Overview</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#fixture">Fixture</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#squad">Squad</a>
+        </li>
+    </ul>
+</div>
+
+
+
+{% endblock %}

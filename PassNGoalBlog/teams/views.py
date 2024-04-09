@@ -86,7 +86,19 @@ def team_overview(year, team_id, is_current):
 @teams.route('/team_squad/<int:team_id>')
 def team_squad(team_id):
     team_squad_resource = TeamSquadData()
-    pass
+    team_squad_info = team_squad_resource.get(team_id)
+    team_data = team_squad_info["team_data"]
+    goalkeeper_info = team_squad_info["Goalkeeper"]
+    defender_info = team_squad_info["Defender"]
+    midfielder_info = team_squad_info["Midfielder"]
+    attacker_info = team_squad_info["Attacker"]
+
+    return render_template("team_squad.html",
+                           team_data=team_data,
+                           goalkeeper_info=goalkeeper_info,
+                           defender_info=defender_info,
+                           midfielder_info=midfielder_info,
+                           attacker_info=attacker_info)
 
 
 @teams.route('/team_fixture/<int:team_id>')
