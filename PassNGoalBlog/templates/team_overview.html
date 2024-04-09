@@ -108,11 +108,10 @@
                         <div class="col mb-4">
                             <div class="card h-100">
                                 <div class="card-body">
-                                    <h6 class="card-title row justify-content-center align-items-center">League</h5>
-                                    <div class="row col justify-content-center align-items-center">
-                                        <img src="{{league_data.logo}}" alt="League logo" width="50" height="50" class="mr-2">
-                                        <a href="{{ url_for('leagues_stat.show_standing', year=league_data.season, league_id=league_data.id) }}">{{ league_data.name }}</a>
-                                    </div>
+                                    <h6 class="card-title row justify-content-center align-items-center" style="font-size: 18;">League</h5>
+                                    <a class="d-flex justify-content-center align-items-center" href="{{ url_for('leagues_stat.show_standing', year=league_data.season, league_id=league_data.id) }}">
+                                        <img src="{{league_data.logo}}" alt="League logo" width="80" height="80" class="mr-2">
+                                    </a>
                                 </div>
                                 
                             </div>
@@ -121,10 +120,21 @@
                         <div class="col mb-4">
                             <div class="card h-100">
                                 <div class="card-body">
-                                    <h6 class="card-title row justify-content-center align-items-center">Recent Forms</h5>
-                                    <p class="text-center" style="color: green; margin-bottom: 0.3rem;">Win: {{recent_form.win}}</p>
-                                    <p class="text-center" style="color: grey; margin-bottom: 0.3rem;">Draw: {{recent_form.draw}}</p>
-                                    <p class="text-center" style="color: red; margin-bottom: 0.3rem;">Loss: {{recent_form.loss}}</p>
+                                    <h6 class="card-title text-center" style="font-size: 18px;">Recent Five Forms</h6>
+                                    <div class="d-flex justify-content-around text-center" style="font-weight: bold;">
+                                        <div>
+                                            <div style="color: green;">WIN</div>
+                                            <div>{{ recent_form.win }}</div>
+                                        </div>
+                                        <div>
+                                            <div style="color: grey;">Draw</div>
+                                            <div>{{ recent_form.draw }}</div>
+                                        </div>
+                                        <div>
+                                            <div style="color: red;">Loss</div>
+                                            <div>{{ recent_form.loss }}</div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -132,10 +142,25 @@
                         <div class="col mb-4">
                             <div class="card h-100">
                                 <div class="card-body">
-                                    <h6 class="card-title row justify-content-center align-items-center">Total Win & Loss</h5>
+                                    <h6 class="card-title text-center" style="font-size: 18px;">Total Win & Loss</h6>
+                                    <div class="d-flex justify-content-around text-center" style="font-weight: bold;">
+                                        <div>
+                                            <div style="color: green;">WIN</div>
+                                            <div>{{ win_fixtures.total }}</div>
+                                        </div>
+                                        <div>
+                                            <div style="color: grey;">Draw</div>
+                                            <div>{{ draw_fixtures.total }}</div>
+                                        </div>
+                                        <div>
+                                            <div style="color: red;">Loss</div>
+                                            <div>{{ loss_fixtures.total }}</div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
                     <hr class="horizontal-line">
                 </div>

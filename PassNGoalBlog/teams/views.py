@@ -47,30 +47,25 @@ def team_overview(year, team_id, is_current):
     # Get the team statistics
     team_overview_data = team_statistics_resource.get(year, team_id, league_id)
 
-    # Get the recent form
-    form = team_overview_data["form"]
-    recent_form = {"win":0, "draw": 0, "loss": 0}
-
-    if len(form) > 5:
-        new_form = form[-5:]
-    else:
-        new_form = form
-    
-    for match_result in new_form:
-        if match_result == 'W':
-            recent_form["win"] += 1
-        elif match_result == 'L':
-            recent_form["loss"] += 1
-        else:
-            recent_form["draw"] += 1
-
     league_data = team_overview_data["league"]
     team_data = team_overview_data["team"]
+
+    # Get the recent form
+    form = team_overview_data["form"][-5:]
+    recent_form = {"win": 0, "draw": 0, "loss": 0}
+
+    for match in form:
+        if match == "W":
+            recent_form["win"] += 1
+        elif match == "D":
+            recent_form["draw"] += 1
+        else:
+            recent_form["loss"] += 1
     
     played_fixtures = team_overview_data["fixtures"]["played"]
     win_fixtures = team_overview_data["fixtures"]["wins"]
     draw_fixtures = team_overview_data["fixtures"]["draws"]
-    lose_fixtures = team_overview_data["fixtures"]["loses"]
+    loss_fixtures = team_overview_data["fixtures"]["loses"]
     goals_for = team_overview_data["goals"]["for"]
     goals_against = team_overview_data["goals"]["against"]
 
@@ -82,7 +77,7 @@ def team_overview(year, team_id, is_current):
                            played_fixtures=played_fixtures,
                            win_fixtures=win_fixtures,
                            draw_fixtures=draw_fixtures,
-                           lose_fixtures=lose_fixtures,
+                           loss_fixtures=loss_fixtures,
                            goals_for=goals_for,
                            goals_against=goals_against,
                            team_standing=team_standing)
