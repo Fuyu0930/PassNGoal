@@ -242,7 +242,7 @@
                                     <td>{{ standing.form }}</td>
                                 </tr>
                                 {% else %}
-                                <tr style="background-color: rgb(11, 165, 11); color: white;">
+                                <tr style="background-color: rgba(11, 162, 11, 0.8); color: white;">
                                     <td>{{ standing.rank }}</td>
                                     
                                     <td>
@@ -276,8 +276,8 @@
     /************************************************************/
     const goalsForData = JSON.parse('{{ goals_for | tojson | safe }}');
     const goalsAgainstData = JSON.parse('{{ goals_against | tojson | safe }}')
-    const goalsForBackgroundColor = ['Green', 'Orange']
-    const goalsAgainstBackgroundColor = ['Red', 'Blue']
+    const goalsForBackgroundColor = ['rgba(0, 204, 0, 0.8)', 'rgba(255, 204, 153, 0.8']
+    const goalsAgainstBackgroundColor = ['rgba(255, 153, 204, 0.8)', 'rgba(102, 178, 255, 0.8)']
 
     // Total Chart total Config (as a function)
     function createTotalChartData(backgroundColor, homeData, awayData) {
