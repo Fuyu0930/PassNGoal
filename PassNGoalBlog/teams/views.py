@@ -85,6 +85,7 @@ def team_overview(year, team_id, is_current):
 
 @teams.route('/team_squad/<int:team_id>')
 def team_squad(team_id):
+    team_squad_resource = TeamSquadData()
     pass
 
 
