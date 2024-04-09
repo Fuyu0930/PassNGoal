@@ -1,0 +1,182 @@
+<style>
+    .team-banner {
+        background: #343a40;
+        color: white;
+        padding: 20px 0;
+        text-align: center;
+        position: relative;
+    }
+    .team-logo {
+        width: 100px; /* Adjust as needed */
+        height: auto;
+        margin-bottom: 20px;
+    }
+    .team-name {
+        font-size: 3rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+        color: white;
+        background-color: transparent;
+        border-color: transparent;
+        border-bottom: 3px solid white; /* To highlight the active tab */
+    }
+    .nav-tabs .nav-link {
+        border: none;
+        color: rgba(255, 255, 255, 0.5);
+    }
+    .follow-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+    }
+    .team-logo {
+        border-radius: 30%;
+        width: 100px;
+        height: 100px;
+    }
+    .section-title {
+        font-size: 1.5rem;
+        font-weight: 500;
+        margin-top: 20px;
+    }
+    .horizontal-line {
+        border: 0;
+        height: 1px;
+        background-image: linear-gradient(to right, transparent, rgba(128, 128, 128, 0.75), transparent);
+        margin: 20px 0;
+    }
+    #sticky-menu {
+    position: -webkit-sticky; /* For Safari */
+    position: sticky;
+    top: 100; /* Adjust this value based on your header/nav height */
+    height: 100vh; /* Optional: to make the menu take full viewport height */
+    overflow-y: auto; /* Optional: to make the menu scrollable if it overflows */
+    }
+</style>
+
+{% extends "base.html" %}
+{% block content %}
+<div class="team-banner">
+    <img src="{{team_data.logo}}" alt="team_logo" class="team-logo">
+    <div class="team-name">{{team_data.name | upper}}</div>
+    <ul class="nav nav-tabs justify-content-center">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('teams.team_overview', year=2023, team_id=team_data.id, is_current=1) }}">
+                Overview
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#fixture">Fixture</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{url_for('teams.team_squad', team_id=team_data.id)}}">
+                Squad
+            </a>
+        </li>
+    </ul>
+</div>
+
+<div class="container mt-3">
+    <!-- Section 1: Goalkeeper -->
+    <div class="section">
+        <h2 class="mb-3">Goalkeeper</h2>
+        <div class="row">
+            <!-- Player Card -->
+            {% for player in goalkeeper_info%}
+            <div class="col-sm-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <img src={{player.photo}} alt="Goalkeeper" class="rounded me-2" style="width: 50px; height: 50px; margin-right: 16px;">
+                            <div>
+                                <h5 class="card-title">{{player.name}} ({{player.number}})</h5>
+                                <p class="card-text">Age: {{player.age}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <hr class="horizontal-line">
+    </div>
+
+    <!-- Section 2: Defender -->
+    <div class="section">
+        <h2 class="mb-3">Defender</h2>
+        <div class="row">
+            <!-- Player Card -->
+            {% for player in defender_info%}
+            <div class="col-sm-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <img src={{player.photo}} alt="Defender" class="rounded me-2" style="width: 50px; height: 50px; margin-right: 16px;">
+                            <div>
+                                <h5 class="card-title">{{player.name}} ({{player.number}})</h5>
+                                <p class="card-text">Age: {{player.age}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <hr class="horizontal-line">
+    </div>
+
+
+    <!-- Section 3: Midfielder -->
+    <div class="section">
+        <h2 class="mb-3">Midfielder</h2>
+        <div class="row">
+            <!-- Player Card -->
+            {% for player in midfielder_info%}
+            <div class="col-sm-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <img src={{player.photo}} alt="Midfielder" class="rounded me-2" style="width: 50px; height: 50px; margin-right: 16px;">
+                            <div>
+                                <h5 class="card-title">{{player.name}} ({{player.number}})</h5>
+                                <p class="card-text">Age: {{player.age}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <hr class="horizontal-line">
+    </div>
+
+    <!-- Section 4: Attacker -->
+    <div class="section">
+        <h2 class="mb-3">Attacker</h2>
+        <div class="row">
+            <!-- Player Card -->
+            {% for player in attacker_info%}
+            <div class="col-sm-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <img src={{player.photo}} alt="Attacker" class="rounded me-2" style="width: 50px; height: 50px; margin-right: 16px;">
+                            <div>
+                                <h5 class="card-title">{{player.name}} ({{player.number}})</h5>
+                                <p class="card-text">Age: {{player.age}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <hr class="horizontal-line">
+    </div>
+</div>
+
+
+
+{% endblock %}
