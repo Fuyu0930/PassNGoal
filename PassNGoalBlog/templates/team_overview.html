@@ -65,13 +65,17 @@
     <div class="team-name">{{team_data.name | upper}}</div>
     <ul class="nav nav-tabs justify-content-center">
         <li class="nav-item">
-            <a class="nav-link" href="#overview">Overview</a>
+            <a class="nav-link" href="{{ url_for('teams.team_overview', year=2023, team_id=team_data.id, is_current=1) }}">
+                Overview
+            </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="#fixture">Fixture</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#squad">Squad</a>
+            <a class="nav-link" href="{{url_for('teams.team_squad', team_id=team_data.id)}}">
+                Squad
+            </a>
         </li>
     </ul>
 </div>

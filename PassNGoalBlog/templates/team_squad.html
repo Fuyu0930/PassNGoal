@@ -63,15 +63,118 @@
     <div class="team-name">{{team_data.name | upper}}</div>
     <ul class="nav nav-tabs justify-content-center">
         <li class="nav-item">
-            <a class="nav-link" href="#overview">Overview</a>
+            <a class="nav-link" href="{{ url_for('teams.team_overview', year=2023, team_id=team_data.id, is_current=1) }}">
+                Overview
+            </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="#fixture">Fixture</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#squad">Squad</a>
+            <a class="nav-link" href="{{url_for('teams.team_squad', team_id=team_data.id)}}">
+                Squad
+            </a>
         </li>
     </ul>
+</div>
+
+<div class="container mt-3">
+    <!-- Section 1: Goalkeeper -->
+    <div class="section">
+        <h2 class="mb-3">Goalkeeper</h2>
+        <div class="row">
+            <!-- Player Card -->
+            {% for player in goalkeeper_info%}
+            <div class="col-sm-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <img src={{player.photo}} alt="Goalkeeper" class="rounded me-2" style="width: 50px; height: 50px; margin-right: 16px;">
+                            <div>
+                                <h5 class="card-title">{{player.name}} ({{player.number}})</h5>
+                                <p class="card-text">Age: {{player.age}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <hr class="horizontal-line">
+    </div>
+
+    <!-- Section 2: Defender -->
+    <div class="section">
+        <h2 class="mb-3">Defender</h2>
+        <div class="row">
+            <!-- Player Card -->
+            {% for player in defender_info%}
+            <div class="col-sm-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <img src={{player.photo}} alt="Defender" class="rounded me-2" style="width: 50px; height: 50px; margin-right: 16px;">
+                            <div>
+                                <h5 class="card-title">{{player.name}} ({{player.number}})</h5>
+                                <p class="card-text">Age: {{player.age}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <hr class="horizontal-line">
+    </div>
+
+
+    <!-- Section 3: Midfielder -->
+    <div class="section">
+        <h2 class="mb-3">Midfielder</h2>
+        <div class="row">
+            <!-- Player Card -->
+            {% for player in midfielder_info%}
+            <div class="col-sm-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <img src={{player.photo}} alt="Midfielder" class="rounded me-2" style="width: 50px; height: 50px; margin-right: 16px;">
+                            <div>
+                                <h5 class="card-title">{{player.name}} ({{player.number}})</h5>
+                                <p class="card-text">Age: {{player.age}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <hr class="horizontal-line">
+    </div>
+
+    <!-- Section 4: Attacker -->
+    <div class="section">
+        <h2 class="mb-3">Attacker</h2>
+        <div class="row">
+            <!-- Player Card -->
+            {% for player in attacker_info%}
+            <div class="col-sm-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <img src={{player.photo}} alt="Attacker" class="rounded me-2" style="width: 50px; height: 50px; margin-right: 16px;">
+                            <div>
+                                <h5 class="card-title">{{player.name}} ({{player.number}})</h5>
+                                <p class="card-text">Age: {{player.age}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <hr class="horizontal-line">
+    </div>
 </div>
 
 
