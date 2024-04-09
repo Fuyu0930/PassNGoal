@@ -22,7 +22,7 @@ def find_target_team(data, target):
     if index == 0:
         return data[:3]
     elif index == len(data) - 1:
-        return data[:-3]
+        return data[-3:]
     else:
         return data[index-1:index+2]
 
@@ -47,16 +47,20 @@ def team_overview(year, team_id, is_current):
     # Get the team statistics
     team_overview_data = team_statistics_resource.get(year, team_id, league_id)
 
+    # Get the recent form
     form = team_overview_data["form"]
     recent_form = {"win":0, "draw": 0, "loss": 0}
+
     if len(form) > 5:
-        form = form[:-5]
+        new_form = form[-5:]
+    else:
+        new_form = form
     
-    for match_result in form:
+    for match_result in new_form:
         if match_result == 'W':
             recent_form["win"] += 1
         elif match_result == 'L':
-            recent_form["lose"] += 1
+            recent_form["loss"] += 1
         else:
             recent_form["draw"] += 1
 

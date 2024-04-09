@@ -109,7 +109,7 @@
                             <div class="card h-100">
                                 <div class="card-body">
                                     <h6 class="card-title row justify-content-center align-items-center">League</h5>
-                                    <div class="row justify-content-center align-items-center">
+                                    <div class="row col justify-content-center align-items-center">
                                         <img src="{{league_data.logo}}" alt="League logo" width="50" height="50" class="mr-2">
                                         <a href="{{ url_for('leagues_stat.show_standing', year=league_data.season, league_id=league_data.id) }}">{{ league_data.name }}</a>
                                     </div>
@@ -122,6 +122,9 @@
                             <div class="card h-100">
                                 <div class="card-body">
                                     <h6 class="card-title row justify-content-center align-items-center">Recent Forms</h5>
+                                    <p class="text-center" style="color: green; margin-bottom: 0.3rem;">Win: {{recent_form.win}}</p>
+                                    <p class="text-center" style="color: grey; margin-bottom: 0.3rem;">Draw: {{recent_form.draw}}</p>
+                                    <p class="text-center" style="color: red; margin-bottom: 0.3rem;">Loss: {{recent_form.loss}}</p>
                                 </div>
                             </div>
                         </div>
@@ -129,7 +132,7 @@
                         <div class="col mb-4">
                             <div class="card h-100">
                                 <div class="card-body">
-                                    <h6 class="card-title row justify-content-center align-items-center">Win & Loss</h5>
+                                    <h6 class="card-title row justify-content-center align-items-center">Total Win & Loss</h5>
                                 </div>
                             </div>
                         </div>
