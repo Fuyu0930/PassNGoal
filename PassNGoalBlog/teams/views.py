@@ -103,4 +103,17 @@ def team_squad(team_id):
 
 @teams.route('/team_fixture/<int:team_id>')
 def team_fixtures(team_id):
-    pass
+    next_fixture_resource = TeamNextFixtures()
+    past_fixture_resource = TeamPastFixtures()
+    team_squad_resource = TeamSquadData()
+
+    next_fixture_data = next_fixture_resource.get(team_id, 3)
+    past_fixture_data = past_fixture_resource.get(team_id, 12)
+    team_squad_data = team_squad_resource.get(team_id)
+
+    team_data = team_squad_data["team_data"]
+
+    return render_template("team_fixture.html",
+                           team_data=team_data,
+                           next_fixture_data=next_fixture_data,
+                           past_fixture_data=past_fixture_data)
