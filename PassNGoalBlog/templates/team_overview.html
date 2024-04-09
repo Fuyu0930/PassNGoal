@@ -77,15 +77,14 @@
 </div>
 
 <div class="container mt-1">
-    
     <div class="row">
         <!-- Sticky Side Menu -->
         <div class = "col-md-3" id="sticky-menu">
             <div id="league_stat" class="list-group">
-                <a class="list-group-item list-group-item-action" href="#basic_info">Basic Info</a>
-                <a class="list-group-item list-group-item-action" href="#league_goals">League Goals</a>
-                <a class="list-group-item list-group-item-action" href="#league_fixtures">League Fixtures</a>
-                <a class="list-group-item list-group-item-action" href="#current_standing">Current Standing</a>
+                <a class="list-group-item list-group-item-action" href="#basic_info">BASIC INFO</a>
+                <a class="list-group-item list-group-item-action" href="#league_goals">GOALS</a>
+                <a class="list-group-item list-group-item-action" href="#league_fixtures">FIXTURE DATA</a>
+                <a class="list-group-item list-group-item-action" href="#current_standing">CURRENT STANDING</a>
                 <a class="list-group-item list-group-item-action">
                     <select class="form-control" id="yearSelect" onchange="location = this.value;">
                         <option value="#">Season: {{ league_data.season }} ~ {{league_data.season + 1}}</option>
@@ -100,7 +99,7 @@
 
         <div class="col-md-9">
             <div data-bs-spy="scroll" data-bs-target="#league_stat" data-bs-offset="0" class="scrollspy-example" tabindex="0">
-                <!-- Section 1 -->
+                <!-- Section 1: Basic Info -->
                 <div class="section">
                     <h2 class="section-title row justify-content-center align-items-center" id="basic_info">BASIC INFO</h2>
                     <div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center">
@@ -119,7 +118,7 @@
                         <div class="col mb-4">
                             <div class="card h-100">
                                 <div class="card-body">
-                                    <h6 class="card-title text-center" style="font-size: 18px;">Recent Five Forms</h6>
+                                    <h6 class="card-title text-center" style="font-size: 18px;">Recent 5 Forms</h6>
                                     <div class="d-flex justify-content-around text-center" style="font-weight: bold;">
                                         <div>
                                             <div style="color: green;">WIN</div>
@@ -164,19 +163,55 @@
                     <hr class="horizontal-line">
                 </div>
 
-                <!-- Section 2 -->
+                <!-- Section 2: Goals -->
                 <div class="section">
-                    <h2 class="section-title row justify-content-center align-items-center" id="league_goals">GOALS</h2>
+                    <h2 class="section-title text-center" id="league_goals">GOALS</h2>
+                    <div class="row" style="display:flex;">     
+                        <!-- Goals For Column -->
+                        <div class="col-lg-6" style="flex:50%">
+                            <div class="card mb-4">
+                                <div class="card-header text-center">Goals For</div>
+                                <div class="card-body">
+                                    <h5 class="card-title text-center">Home vs. Away Comparison Chart</h5>
+                                    <canvas id="goalsForComparisonChart"></canvas>
+                                </div>
+                            </div>
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <h5 class="card-title text-center">Minutes Chart</h5>
+                                    <canvas id="goalsForMinutesChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Goals Against Column -->
+                        <div class="col-lg-6" style="flex:50%">
+                            <div class="card mb-4">
+                                <div class="card-header text-center">Goals Against</div>
+                                <div class="card-body">
+                                    <h5 class="card-title text-center">Home vs. Away Comparison Chart</h5>
+                                    <canvas id="goalsAgainstComparisonChart"></canvas>
+                                </div>
+                            </div>
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <h5 class="card-title text-center">Minutes Chart</h5>
+                                    <canvas id="goalsAgainstMinutesChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <hr class="horizontal-line">
                 </div>
 
-                <!-- Section 3 -->
+                <!-- Section 3: Fixture data -->
                 <div class="section">
                     <h2 class="section-title row justify-content-center align-items-center" id="league_fixtures">FIXTURE DATA</h2>
                     <hr class="horizontal-line">
                 </div>
 
-                <!-- Section 4 -->
+                <!-- Section 4: Current Standing -->
                 <div class="section" id="current_standing">
                     <h2 class="section-title row justify-content-center align-items-center" id="current_standing">CURRENT STANDING</h2>
                     <table class="table table-striped">
@@ -234,9 +269,164 @@
             </div>
         </div>
     </div>
-    
-
-
 </div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    /************************************************************/
+    /**********************Comparison Chart**********************/
+    /************************************************************/
+    const goalsForData = JSON.parse('{{ goals_for | tojson | safe }}');
+    const goalsAgainstData = JSON.parse('{{ goals_against | tojson | safe }}')
+    const goalsForBackgroundColor = ['Green', 'Orange']
+    const goalsAgainstBackgroundColor = ['Red', 'Blue']
+
+    // Total Chart total Config (as a function)
+    function createTotalChartData(backgroundColor, homeData, awayData) {
+        return {
+            labels:[
+                "Home",
+                "Away"
+            ],
+            datasets: [{
+                label: "Goal Comparison",
+                data: [homeData, awayData],
+                backgroundColor:backgroundColor,
+                hoverOffset: 4
+            }]
+        }
+    }
+
+    const comparisonPlugins = { 
+        legend: {
+            labels: {
+                font: {
+                    size: 15
+                }
+            }
+        }
+    }
+    
+    const goalsForComparisonChartData = createTotalChartData(goalsForBackgroundColor, goalsForData.total.home, goalsForData.total.away);
+    const goalsAgainstComparisonChartData = createTotalChartData(goalsAgainstBackgroundColor, goalsAgainstData.total.home, goalsAgainstData.total.away);
+    const goalsForComparisonChart = new Chart(document.getElementById('goalsForComparisonChart'),{
+        type: "doughnut",
+        data: goalsForComparisonChartData,
+        options:{
+            plugins: comparisonPlugins
+        }
+    });
+
+    const goalsAgainstComparisonChart = new Chart(document.getElementById('goalsAgainstComparisonChart'),{
+        type: "doughnut",
+        data: goalsAgainstComparisonChartData,
+        options:{
+            plugins: comparisonPlugins
+        }
+    });
+
+
+    /********************************************************/
+    /**********************Minute Chart**********************/
+    /********************************************************/
+    
+    function createMinutesChartData(jsonData) {
+        const minutesLabels = Object.keys(jsonData.minute);
+        const minutesData = Object.values(jsonData.minute).map(item => item ? item.total : 0);
+
+        return {
+            type: 'bar',
+            data: {
+                labels: minutesLabels,
+                datasets: [{
+                    label: '# of Goals',
+                    data: minutesData,
+                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                            const index = context.dataIndex;
+                            const value = context.dataset.data[index];
+                            const percentage = jsonData.minute[minutesLabels[index]].percentage;
+                            return `${value} (${percentage})`;
+                            }
+                        }
+                    }
+                }
+            }
+        };
+    }
+    
+  });
+  
+    // // Prepare the data for the 'minutes' chart
+    // const minutesLabels = Object.keys(jsonData.minute);
+    // const minutesData = Object.values(jsonData.minute).map(item => item ? item.total : 0);
+    // const minutesChartConfig = {
+    //   type: 'bar',
+    //   data: {
+    //     labels: minutesLabels,
+    //     datasets: [{
+    //       label: '# of Goals',
+    //       data: minutesData,
+    //       backgroundColor: 'rgba(153, 102, 255, 0.2)',
+    //       borderColor: 'rgba(153, 102, 255, 1)',
+    //       borderWidth: 1
+    //     }]
+    //   },
+    //   options: {
+    //     scales: {
+    //       y: {
+    //         beginAtZero: true
+    //       }
+    //     },
+    //     plugins: {
+    //       legend: {
+    //         display: true
+    //       },
+    //       tooltip: {
+    //         callbacks: {
+    //           label: function(context) {
+    //             const index = context.dataIndex;
+    //             const value = context.dataset.data[index];
+    //             const percentage = jsonData.minute[minutesLabels[index]].percentage;
+    //             return `${value} (${percentage})`;
+    //           }
+    //         }
+    //       }
+    //     }
+    //   }
+    // };
+  
+    // // Render the 'total' chart
+    // const totalChart = new Chart(document.getElementById('totalChart'), {
+    //   type: 'bar',
+    //   data: totalData,
+    //   options: {
+    //     scales: {
+    //       y: {
+    //         beginAtZero: true
+    //       }
+    //     }
+    //   }
+    // });
+  
+    // // Render the 'minutes' chart
+    // const minutesChart = new Chart(document.getElementById('minutesChart'), minutesChartConfig);
+  
+  </script>
 {% endblock %}
