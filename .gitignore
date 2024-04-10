@@ -2,3 +2,4 @@ PassNGoalBlog/static/profile_pics/*.png
 */*.sqlite
 migrations/
 PassNGoalBlog/resources/headers.json
+*/__pyache__/
