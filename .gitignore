@@ -3,3 +3,4 @@ PassNGoalBlog/static/profile_pics/*.png
 migrations/
 PassNGoalBlog/resources/headers.json
 */__pyache__/
+*/.DS_Store
