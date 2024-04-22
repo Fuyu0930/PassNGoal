@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_restful import Api
+from flask_ckeditor import CKEditor
 
 
 app = Flask(__name__)
@@ -65,3 +66,8 @@ api.add_resource(TeamPastFixtures, '/team_past_fixtures/<int:team_id>/<int:round
 api.add_resource(TeamCurrentFixture, '/team_current_fixture/<int:team_id>')
 api.add_resource(TeamLeagueInfo, '/team_league_info/<int:year>/<int:team_id>/<int:is_current>')
 api.add_resource(TeamStatistics, '/team_statistics/<int:year>/<int:team_id>/<int:league_id>')
+
+######################################
+########### CKEditor Setup ###########
+######################################
+ckeditor = CKEditor(app)
