@@ -21,7 +21,8 @@
      </div>
   </form>
   
-  {{ ckeditor.config(name='text') }}
+  {{ super() }}
+  {{ ckeditor.config(name='text', height = 600) }}
 </div>
 
 {% endblock content %}
