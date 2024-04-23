@@ -2,5 +2,5 @@ PassNGoalBlog/static/profile_pics/*.png
 */*.sqlite
 migrations/
 PassNGoalBlog/resources/headers.json
-__pycache__/
-.DS_Store
+**/__pycache__/
+**/.DS_Store
