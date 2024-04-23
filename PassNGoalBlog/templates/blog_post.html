@@ -1,17 +1,60 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="jumbotron">
-  <h1>{{ post.title }}</h1>
-  <h2>Written by: {{post.author.username}}</h2>
-  <h3>Published: {{ post.date.strftime('%B %d, %Y') }}</h3>
-  <p>{{post.text | safe}}</p>
-   {% if post.author == current_user %}
+<style>
+  body {
+      background-color: #f4f4f4;
+      margin-top: 20px;
+  }
+  .post-container {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+  }
+  .post-title {
+      color: #333;
+      margin-bottom: 15px;
+  }
+  .post-meta {
+      font-style: italic;
+      color: #6c757d;
+      margin-bottom: 15px;
+  }
+  .post-content {
+      font-size: 1.1em;
+      line-height: 1.6;
+      color: #555;
+  }
+  .post-link {
+      color: #007bff;
+      text-decoration: none;
+      word-break: break-all;
+  }
+  .username {
+      font-weight: bold;
+  }
+</style>
+
+<div class="container">
+  <div class="post-container">
+    <h2 class="post-title">{{ post.title }}</h2>
+    <div class="post-meta">
+      <span class="fas fa-user"></span> Posed by <span class="username">{{post.author.username}}</span> <br>
+      <span class="fas fa-calendar-alt"></span> Published on {{ post.date.strftime('%B %d, %Y') }}
+    </div>
+    <div class="post-content">
+      <p>{{post.text | safe}}</p>
+    </div>
+  </div>
+  {% if post.author == current_user %}
      <div>
        <a class="btn btn-secondary" href="{{ url_for('blog_posts.update', blog_post_id=post.id) }}">Update</a>
        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#del_modal">Delete</button>
      </div>
    {% endif %}
 </div>
+
 
   <!-- Modal for Pop Up-->
   {# https://getbootstrap.com/docs/4.1/components/modal/ #}
